@@ -1,0 +1,34 @@
+[build-system]
+requires = ["setuptools>=68", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "dlkin"
+version = "0.1.0"
+description = "Traveling kinks in damped, driven lattices: kinetic relation, Jordan-chain identity and spectral stability."
+readme = "README.md"
+requires-python = ">=3.10"
+license = { file = "LICENSE" }
+dependencies = [
+    "numpy>=1.24",
+    "scipy>=1.10",
+    "pyyaml>=6.0",
+    "matplotlib>=3.7",
+    "pytest>=7.0",
+]
+
+[project.urls]
+Repository = "https://github.com/lucastiger/damped-lattice-kinetic"
+
+[tool.setuptools]
+package-dir = { "" = "src" }
+
+[tool.setuptools.packages.find]
+where = ["src"]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+markers = [
+    "slow: marks tests that take more than a few seconds (deselect with '-m \"not slow\"')",
+]
+filterwarnings = ["error::RuntimeWarning"]
