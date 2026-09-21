@@ -1,0 +1,204 @@
+{
+ "metadata": {
+  "schema": 1,
+  "script": "scripts/01_kinetic_relation.py",
+  "quick": false,
+  "created": "2026-09-21T05:40:39+00:00",
+  "sections": [
+   "bc_check",
+   "curve",
+   "critical"
+  ],
+  "elapsed_sec": 1125.654,
+  "config": "configs/01_kinetic_relation.yaml",
+  "config_sha256_16": "aae0b949366baa05",
+  "versions": {
+   "python": "3.11.15",
+   "numpy": "2.4.6",
+   "scipy": "1.17.1"
+  },
+  "git_commit": "edcf07f",
+  "config_contents": {
+   "grid": {
+    "L": 200.0,
+    "N": 2048
+   },
+   "model": {
+    "mu": 1.0,
+    "gamma": 0.1,
+    "mu2": 0.0,
+    "couplings": [
+     [
+      1,
+      1.0
+     ]
+    ],
+    "template_width": 2.0
+   },
+   "run": {
+    "phat": {
+     "normalization": "minus2pi",
+     "seed": 0,
+     "iters": 80,
+     "shift": 1e-14
+    },
+    "newton": {
+     "tol": 1e-12,
+     "maxit": 40
+    },
+    "bc_check": {
+     "L": 200.0,
+     "N": 2048,
+     "c0": 0.88,
+     "sigma_guess": 0.6
+    },
+    "curve": {
+     "L": 200.0,
+     "N": 2048,
+     "c0": 0.88,
+     "c_min": 0.2,
+     "c_max": 0.8995,
+     "step": 0.001,
+     "refine_from": 0.898,
+     "refine_step": 0.0001,
+     "decimals": 7,
+     "csv": "data/01_kinetic_curve.csv"
+    },
+    "critical": {
+     "L": 200.0,
+     "N": 4096,
+     "c0": 0.88,
+     "approach": {
+      "start": 0.881,
+      "stop": 0.89,
+      "step": 0.001
+     },
+     "probe": [
+      0.8988,
+      0.89892,
+      0.899
+     ],
+     "bracket": [
+      0.89892,
+      0.899
+     ],
+     "secant": {
+      "maxit": 6,
+      "tol": 1e-10
+     }
+    }
+   }
+  },
+  "normalization": "minus2pi"
+ },
+ "quick": false,
+ "bc_check": {
+  "L": 200.0,
+  "N": 2048,
+  "c0": 0.88,
+  "template_width": 0.4749736834815167,
+  "sigma": 0.6165589432415555,
+  "residual": 1.1091128016005314e-13,
+  "iters": 7,
+  "phi_left": 6.947549838858603,
+  "phi_right": 0.6643645313459521,
+  "bc_left": 6.947549833471153,
+  "bc_right": 0.6643645262915668,
+  "err_left": 5.387450485727641e-09,
+  "err_right": 5.054385243674631e-09
+ },
+ "curve": {
+  "csv": "data/01_kinetic_curve.csv",
+  "columns": [
+   "c",
+   "sigma",
+   "sigma_prime",
+   "kappa",
+   "phat_one",
+   "m",
+   "identity_relerr",
+   "residual"
+  ],
+  "L": 200.0,
+  "N": 2048,
+  "c0": 0.88,
+  "c_min": 0.2,
+  "c_max": 0.8995,
+  "step": 0.001,
+  "refine_from": 0.898,
+  "refine_step": 0.0001,
+  "n_points": 714,
+  "max_residual": 9.771072839726003e-13,
+  "max_identity_relerr": 1.1154559102023248e-05,
+  "sigma_max_on_grid": 0.6501912453173069,
+  "c_at_sigma_max_on_grid": 0.8989
+ },
+ "critical": {
+  "L": 200.0,
+  "N": 4096,
+  "bracket": [
+   0.89892,
+   0.899
+  ],
+  "bracket_sigma_prime": [
+   0.011895190132836006,
+   -0.09005272388647338
+  ],
+  "secant_iters": 4,
+  "secant_tol": 1e-10,
+  "c_hat1": 0.8989297485914364,
+  "sigma_hat1": 0.6501917819165786,
+  "sigma_prime_at_root": 1.3497873901435022e-11,
+  "trace": [
+   {
+    "stage": "probe",
+    "c": 0.8988,
+    "sigma": 0.6501819570790636,
+    "sigma_prime": 0.14777463082903272,
+    "residual": 6.84230450076484e-13
+   },
+   {
+    "stage": "probe",
+    "c": 0.89892,
+    "sigma": 0.6501917238226312,
+    "sigma_prime": 0.011895190132836006,
+    "residual": 5.351274978693255e-13
+   },
+   {
+    "stage": "probe",
+    "c": 0.899,
+    "sigma": 0.6501886646558593,
+    "sigma_prime": -0.09005272388647338,
+    "residual": 7.041034422172743e-13
+   },
+   {
+    "stage": "secant",
+    "c": 0.8989293343274336,
+    "sigma": 0.6501917818112088,
+    "sigma_prime": 0.0005083246360435621,
+    "residual": 6.322720125240266e-13
+   },
+   {
+    "stage": "secant",
+    "c": 0.8989297309781226,
+    "sigma": 0.6501917819162861,
+    "sigma_prime": 2.1617748589752533e-05,
+    "residual": 6.52367049269742e-13
+   },
+   {
+    "stage": "secant",
+    "c": 0.8989297485959026,
+    "sigma": 0.6501917819166335,
+    "sigma_prime": -5.4815469809071174e-09,
+    "residual": 4.878319970202938e-13
+   },
+   {
+    "stage": "secant",
+    "c": 0.8989297485914364,
+    "sigma": 0.6501917819165786,
+    "sigma_prime": 1.3497873901435022e-11,
+    "residual": 5.302425165609748e-13
+   }
+  ]
+ }
+}

@@ -1,0 +1,98 @@
+# The Jordan-chain identity  kappa = -mu sigma'(c) <phat,1>  (R4), its convergence under
+# refinement, and why the exact sigma'(c) is used instead of a finite difference.
+#
+# Production settings; `--quick` deep-merges the `quick:` section over everything above.
+# The identity is NOWHERE imposed: kappa comes from <phat, M1 phi'>, sigma' from the
+# bordered solve and <phat,1> from the normalization, and the relative error between them
+# is the reported number.
+
+grid:
+  L: 200.0
+  N: 4096
+
+model:
+  mu: 1.0
+  gamma: 0.1
+  mu2: 0.0
+  couplings: [[1, 1.0]]
+  template_width: 2.0
+
+run:
+  phat: {normalization: minus2pi, seed: 0, iters: 80, shift: 1.0e-14}
+  newton: {tol: 1.0e-12, maxit: 40}
+
+  # (a) The reference point of Observation 9.2.
+  c089:
+    L: 200.0
+    N: 4096
+    c0: 0.88
+    approach: {start: 0.881, stop: 0.890, step: 1.0e-3}
+    c: 0.89
+
+  # (b) The same computation at six resolutions.  Each case is independent, so
+  #     `--only convergence --cases L300_N6144` runs the heavy one on its own and
+  #     merges it into an existing data/02_identity.json.
+  convergence:
+    c0: 0.88
+    approach: {start: 0.881, stop: 0.890, step: 1.0e-3}
+    c: 0.89
+    cases:
+      L200_N1024: {L: 200.0, N: 1024}
+      L200_N2048: {L: 200.0, N: 2048}
+      L200_N4096: {L: 200.0, N: 4096}
+      L300_N3072: {L: 300.0, N: 3072}
+      L300_N6144: {L: 300.0, N: 6144}
+      L150_N2048: {L: 150.0, N: 2048}
+
+  # (c) The identity across the whole first branch, up to just short of the fold.
+  #     `walk_step` bounds the natural-continuation step used to travel between targets;
+  #     `fine_from` / `fine_step` tighten it where the branch turns over.
+  #     Note 0.89892 is 1e-5 from c_hat1, where both sides of the identity pass through
+  #     zero: the RELATIVE error peaks there while the absolute one does not.  Both are
+  #     recorded -- see the `sweep` section of the script docstring.
+  sweep:
+    L: 200.0
+    N: 4096
+    c0: 0.88
+    walk_step: 5.0e-3
+    fine_from: 0.8995
+    fine_step: 5.0e-5
+    decimals: 7
+    targets: [0.5, 0.7, 0.85, 0.89, 0.895, 0.898, 0.8988, 0.89892, 0.899,
+              0.8992, 0.8995, 0.8998, 0.8999, 0.9, 0.90015]
+
+  # (d) Exact sigma'(c) versus a centred finite difference -- the reason (a)-(c) never
+  #     use one.  `step` is the SPACING between the two evaluation points:
+  #         (sigma(c + step/2) - sigma(c - step/2)) / step
+  #     which is the difference a continuation walking in steps of `step` can form.  The
+  #     record also carries the wider (c +/- step) variant, whose error is 4x larger
+  #     because the truncation error of a centred difference is quadratic in the spacing.
+  fd:
+    L: 200.0
+    N: 4096
+    c0: 0.88
+    approach: {start: 0.881, stop: 0.890, step: 1.0e-3}
+    c: 0.89
+    step: 1.0e-3
+
+quick:
+  grid: {L: 100.0, N: 1024}
+  run:
+    c089: {L: 100.0, N: 1024, approach: {start: 0.885, stop: 0.890, step: 5.0e-3}}
+    convergence:
+      approach: {start: 0.885, stop: 0.890, step: 5.0e-3}
+      cases:
+        L200_N1024: {L: 100.0, N: 512}
+        L200_N2048: {L: 100.0, N: 1024}
+        L200_N4096: {L: 100.0, N: 1024}
+        L300_N3072: {L: 150.0, N: 1536}
+        L300_N6144: {L: 150.0, N: 1536}
+        L150_N2048: {L: 75.0, N: 1024}
+    sweep:
+      L: 100.0
+      N: 1024
+      walk_step: 1.0e-2
+      fine_from: 0.8995
+      fine_step: 5.0e-4
+      targets: [0.7, 0.85, 0.89, 0.8995]
+    fd: {L: 100.0, N: 1024, approach: {start: 0.885, stop: 0.890, step: 5.0e-3}}

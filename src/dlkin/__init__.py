@@ -6,19 +6,33 @@ damped, dc-driven Frenkel-Kontorova lattice and its generalizations.
 This module is the numerical core: the spectral grid and operators (:mod:`dlkin.grid`),
 the lattice model and kink template (:mod:`dlkin.model`), the traveling-wave Newton
 solver (:mod:`dlkin.solver`), and continuation in the velocity (:mod:`dlkin.continuation`).
+
+On top of it sit the biorthogonal / spectral layer (:mod:`dlkin.spectral`) -- ``phat``,
+the exact ``sigma'(c)``, ``kappa``, ``m`` and the eigenvalues of the co-traveling pencil
+-- and the result-file writer the experiment scripts emit through (:mod:`dlkin.io`).
 """
 
 from __future__ import annotations
 
 import logging
 
-from .config import ResolvedConfig, load_config, resolve
+from .config import ResolvedConfig, apply_overlay, load_config, resolve
 from .continuation import (
     ArclengthSystem,
     ContinuationError,
     ContinuationRecord,
     PseudoArclength,
     natural_continuation,
+)
+from .io import (
+    SCHEMA_VERSION,
+    build_metadata,
+    deep_merge,
+    get_path,
+    load_result,
+    save_result,
+    set_path,
+    to_jsonable,
 )
 from .grid import (
     Grid,
@@ -30,6 +44,18 @@ from .grid import (
 )
 from .model import LatticeModel, Template, template_arrays
 from .solver import ConvergenceError, NewtonResult, TravelingWaveSolver, init_branch
+from .spectral import (
+    PHAT_NORMALIZATIONS,
+    BranchScalars,
+    KappaScalars,
+    branch_scalars,
+    kappa_scalars,
+    left_null,
+    normalize_phat,
+    pencil_eigs,
+    positive_real_union,
+    real_nontrivial,
+)
 
 __version__ = "0.1.0"
 
@@ -61,8 +87,29 @@ __all__ = [
     "ContinuationError",
     "PseudoArclength",
     "ArclengthSystem",
+    # spectral / biorthogonal
+    "PHAT_NORMALIZATIONS",
+    "left_null",
+    "normalize_phat",
+    "KappaScalars",
+    "kappa_scalars",
+    "BranchScalars",
+    "branch_scalars",
+    "pencil_eigs",
+    "real_nontrivial",
+    "positive_real_union",
     # config
     "load_config",
     "resolve",
+    "apply_overlay",
     "ResolvedConfig",
+    # result files
+    "SCHEMA_VERSION",
+    "save_result",
+    "load_result",
+    "build_metadata",
+    "deep_merge",
+    "get_path",
+    "set_path",
+    "to_jsonable",
 ]
