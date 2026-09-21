@@ -1,0 +1,10 @@
+__pycache__/
+*.py[cod]
+.pytest_cache/
+*.egg-info/
+build/
+dist/
+.venv/
+
+# NOTE: data/ and figures/ are deliberately NOT ignored -- the generated
+# results and plots are part of the reproducibility record.
