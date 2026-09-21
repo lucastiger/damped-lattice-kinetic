@@ -98,7 +98,7 @@ of the branch in $c$ it is $\ip{\ph}{\one}$ that vanishes and no crossing occurs
 Lyapunov--Schmidt reduction then reduces the local sufficiency of the slope criterion to
 the sign of one computable coefficient. A Fourier-spectral solver for the advance--delay
 equation, independent of the method of~\cite{VCKX20}, reproduces its critical velocity,
-critical force and maximal velocity, verifies the identity to $10^{-14}$ with spectral
+critical force and maximal velocity, verifies the identity to $10^{-13}$ with spectral
 convergence, and confirms the predicted behaviour at the first extremum and the first
 turning point. The identity extends to damped, additively driven lattices with arbitrary
 periodic onsite potential and symmetric finite-range coupling. We state precisely what is
@@ -200,7 +200,7 @@ results, with their status, are as follows.
   onsite potential and any symmetric finite-range coupling: $\kappa=-f'(c)\ip{\ph}{\one}$.
 \item \emph{Numerics} (\S\ref{sec:numerics}--\ref{sec:results}, \tagN). A Fourier-spectral
   solver for~\eqref{eq:TW} reproduces $\chat$, $\sigma(\chat)$ and $\cmax$ of~\cite{VCKX20};
-  confirms~\eqref{eq:main} to $10^{-14}$ with spectral convergence and independence of the
+  confirms~\eqref{eq:main} to $10^{-13}$ with spectral convergence and independence of the
   domain size; confirms that the stability transition and the zero of $\sigma'$ coincide to
   $10^{-6}$ in $c$; confirms the turning-point dichotomy at the first fold; finds $\ph$
   exponentially localized; and confirms the generalized identity in four modified lattices.
@@ -723,6 +723,16 @@ $x_1=-Q(s)^{-1}\bigl(b_2+(M_1+s)b_1\bigr)$, $x_2=b_1+sx_1$. Typically 14--24 eig
 near a real shift $s$ chosen within $0.004$--$0.035$ of the expected $\nu_2$, tolerance
 $10^{-10}$. An eigenvalue is classified as real if $|\operatorname{Im}\nu|<10^{-7}$; the exact
 eigenvalues $0$ and $-\gamma$ are identified by $|\nu|<10^{-6}$, $|\nu+\gamma|<10^{-6}$.
+Near the essential spectrum that is not enough. On a finite domain the continuum
+$\operatorname{Re}\nu=-\gamma/2$ becomes $O(N)$ discrete eigenvalues scattered a little off
+that line, and close to the threshold some of them are returned with
+$|\operatorname{Im}\nu|$ below $10^{-7}$, indistinguishable one at a time from an isolated
+real mode. Proposition~\ref{prop:duality} identifies them: the spectrum is invariant under
+$\nu\mapsto-\gamma-\nu$, so a pair of real candidates with $\nu+\nu'=-\gamma$ is symmetric
+about the line, whereas an isolated mode has its dual partner far away. A candidate is
+discarded when it is both half of such a pair and within twice the spread of the same
+window's complex eigenvalues about the line --- a threshold measured from the computation,
+not chosen. Where $m<0$, past its pole, $-\kappa/m$ is not used to locate $\nu_2$.
 Multipliers are $\rho=e^{\nu/c}$.
 
 \paragraph{Resolution.} Production runs use $L=200$ and $N=4096$ ($h\approx0.098$);
@@ -776,10 +786,20 @@ $\kappa=12.095961$ with $\ip{\ph}{\one}=-2\pi$, so that
 $\kappa-2\pi\mu\sigma'$ vanishes to machine precision; $\ip{\ph}{\cos\phi}=1.1\times10^{-13}$;
 the power balance~\eqref{eq:pb} holds to relative accuracy $4\times10^{-14}$; and
 $\partial_c\phi$ at the domain edge equals $2.498179$, against
-$\sigma'/\sqrt{1-\sigma^2}=2.498175$. The identity~\eqref{eq:identity} holds to
-$10^{-13}$ or better on every point computed with $N=4096$ between $c=0.5$ and $c=0.90015$.
-Its relative error converges spectrally in $h$ and is independent of $L$
-(Table~\ref{tab:conv}).
+$\sigma'/\sqrt{1-\sigma^2}=2.498175$. Its relative error converges spectrally in $h$ and is
+independent of $L$ (Table~\ref{tab:conv}).
+
+Along the branch the two error measures must be read together. At fifteen velocities
+between $c=0.5$ and $c=0.90015$ ($N=4096$) the \emph{absolute} disagreement
+$\bigl|\kappa+\mu\sigma'\ip{\ph}{\one}\bigr|$ never exceeds $6.2\times10^{-10}$, and is below
+$3.4\times10^{-11}$ at every velocity but the one closest to $\cmax$. The \emph{relative}
+error is $\lesssim10^{-13}$ up to $c=0.89$ and $\leq7.3\times10^{-12}$ at every velocity
+except the two that bracket $\chat$, where it reaches $2.1\times10^{-11}$ at $c=0.899$ and
+$1.8\times10^{-10}$ at $c=0.89892$. That peak is a property of the denominator, not of the
+identity: $c=0.89892$ is $10^{-5}$ from $\chat$, so both sides of~\eqref{eq:identity} have
+collapsed to $0.0747$, $0.6\%$ of their value at $c=0.89$, while the absolute disagreement
+there, $1.3\times10^{-11}$, is in line with the rest of the sweep and smaller than at
+$c=0.8999$.
 \end{observation}
 
 \begin{table}[h]
@@ -794,9 +814,9 @@ $L$ & $N$ & $h$ & relative error of~\eqref{eq:identity} & $\|M_0\phi'\|_\infty/\
 \midrule
 200 & 1024 & 0.391 & $3.1\times10^{-4}$ & $9.8\times10^{-2}$\\
 200 & 2048 & 0.195 & $1.3\times10^{-8}$ & $2.9\times10^{-4}$\\
-200 & 4096 & 0.098 & $\lesssim10^{-14}$ & $2.5\times10^{-9}$\\
+200 & 4096 & 0.098 & $4.2\times10^{-14}$ & $2.5\times10^{-9}$\\
 300 & 3072 & 0.195 & $1.3\times10^{-8}$ & $2.9\times10^{-4}$\\
-300 & 6144 & 0.098 & $1.2\times10^{-13}$ & $2.5\times10^{-9}$\\
+300 & 6144 & 0.098 & $9.3\times10^{-14}$ & $2.5\times10^{-9}$\\
 150 & 2048 & 0.146 & $2.7\times10^{-12}$ & $6.8\times10^{-6}$\\
 \bottomrule
 \end{tabular}
@@ -805,9 +825,19 @@ $L$ & $N$ & $h$ & relative error of~\eqref{eq:identity} & $\|M_0\phi'\|_\infty/\
 The error is not a statement about~\eqref{eq:identity} itself, which is exact for the
 continuous problem: the discrete branch equation reproduces~\eqref{eq:dc} only up to the
 spectral error in differentiating the analytic template, which is why the error tracks
-$\|M_0\phi'\|/\|\phi'\|$. Replacing the exact $\sigma'$ by a centred difference with step
-$10^{-3}$ yields a grid-independent discrepancy of $1.6\times10^{-4}$, the differencing error
-near the curvature maximum of $\sigma$.
+$\|M_0\phi'\|/\|\phi'\|$. The last two rows have reached the round-off floor: there the
+computed value is no longer a discretization error but an accumulation of rounding, and it is
+platform-dependent at that level (the original run of this table recorded $4\times10^{-16}$
+in row three). What is reproducible is the bound, $\lesssim10^{-12}$.
+
+Replacing the exact $\sigma'$ by a centred difference over two points $10^{-3}$ apart,
+$\bigl(\sigma(c+5\times10^{-4})-\sigma(c-5\times10^{-4})\bigr)/10^{-3}$, yields a
+grid-independent discrepancy of $1.6\times10^{-4}$ at $c=0.89$, the differencing error near
+the curvature maximum of $\sigma$; the wider
+$\bigl(\sigma(c+10^{-3})-\sigma(c-10^{-3})\bigr)/(2\times10^{-3})$ is four times worse,
+$6.5\times10^{-4}$, the truncation error of a centred difference being quadratic in the
+spacing. Either would put a floor under Table~\ref{tab:conv} ten orders of magnitude above
+its last row, which is why $\sigma'$ is obtained from the bordered system throughout.
 
 \begin{figure}[t]
 \centering
@@ -843,8 +873,13 @@ orientation.
 \caption{Near the first extremum; $L=200$, $N=4096$, normalization $\ip{\ph}{\one}=-2\pi$
 (so $\kappa=2\pi\mu\sigma'$ to the digits shown). $\nu_2$: largest real eigenvalue other than
 $0$ and $-\gamma$ (shift-invert Arnoldi); $\rho_2=e^{\nu_2/c}$. At $c=0.895$ the predicted
-value lies $0.004$ from the essential-spectrum line and no isolated real eigenvalue was
-resolved. At $c=0.9$ the reduction is outside its range of validity.}
+value lies $0.004$ from the essential-spectrum line $\operatorname{Re}\nu=-\gamma/2$ and no
+isolated real eigenvalue is resolved: what Arnoldi returns there is the pair $-0.0457455$,
+$-0.0542545$, whose sum is $-\gamma$ to the last digit resolved --- a conformal-dual pair
+(Proposition~\ref{prop:duality}) symmetric about that line --- inside a window whose other
+members are the complex part of the same discretized continuum, spread $0.0041$ about it. At
+$c=0.9$ the reduction is outside its range of validity, so $-\kappa/m$ is no guide and
+$\nu_2$ is the unique isolated real eigenvalue near the shift.}
 \label{tab:threshold}
 \begin{tabular}{@{}lrrrrrl@{}}
 \toprule
@@ -876,7 +911,16 @@ increasing continuously through $\nu\approx0.065$ ($\rho\approx1.075$); no eigen
 $\nu=0$. (d) In a separate run with $\Delta s=0.02$, the invariant~\eqref{eq:arc} was evaluated
 at every step from $c=0.89984$ through the turning point and remained between
 $2\times10^{-9}$ and $8\times10^{-9}$, the discretization level of the $N=2048$ grid
-(cf.\ Table~\ref{tab:conv}).
+(cf.\ Table~\ref{tab:conv}) and not the corrector tolerance. Three observations separate the
+two. The corrector residual $\|F\|_\infty$ is flat at $4\times10^{-11}$ at every one of the
+$150$ steps while the invariant varies by two orders of magnitude; recomputing $\ph$ with
+$70$, $80$ or $200$ inverse iterations leaves the invariant unchanged to three significant
+figures; and what it does track, step for step and at a ratio of about $0.02$, is
+$\|M_0^{\T}\ph\|/\|\ph\|$, i.e.\ how nearly singular the \emph{discrete} $M_0$ is at that
+point of the branch. That residual is not uniform along the branch: over
+$c=0.90012$--$0.90020$ on the way back down it rises to $5\times10^{-6}$, and the invariant
+rises with it to $1.1\times10^{-7}$. The quoted range is therefore the level over the
+stretch named, not a bound along the whole branch.
 \end{observation}
 
 \begin{table}[h]
@@ -1031,7 +1075,7 @@ Cor.~\ref{cor:local}\\
 generalization to~\eqref{eq:gen} & \tagC{analogues} & Prop.~\ref{prop:gen}\\
 $Q(\nu)$ Fredholm of index zero for $\operatorname{Re}\nu>-\gamma/2$ &
 \tagC{\ref{H:branch}} & Lemma~\ref{lem:fredholm}\\
-\ref{H:branch}--\ref{H:adjoint} at $\gamma=0.1$; identity to $10^{-14}$; $\chat$, $\cmax$;
+\ref{H:branch}--\ref{H:adjoint} at $\gamma=0.1$; identity to $10^{-13}$; $\chat$, $\cmax$;
 dichotomy at $\cmax$; $m(\chat)>0$ & \tagN & \S\ref{sec:results}\\
 \ref{H:fredholm}--\ref{H:adjoint} on the infinite lattice & \tagO & Remark~\ref{rem:hyp}\\
 sign of $m(\hat c)$ in general; global criterion & \tagO & below\\

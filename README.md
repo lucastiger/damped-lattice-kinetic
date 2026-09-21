@@ -63,6 +63,11 @@ The numerical core (grid, operators, model, Newton solver, continuation) and the
 spectral / biorthogonal layer (`phat`, `kappa`, `m`, pencil eigenvalues) are in place and
 are checked against `handoff/reference/{fk,spectral}.py` in `tests/test_reference_smoke.py`
 and `tests/test_spectral.py` -- the restructured code reproduces the reference bit for
-bit.  Experiments 01-04 are written and their `data/*.json` are committed.  Experiments
-05-08 (null-vector decay, the full spectrum snapshot, conformal symplecticity, the scope
-survey) and `scripts/check_claims.py` are not written yet.
+bit.  Experiments 01-04 are written and their `data/*.json` are committed; all 78
+`claims.yaml` claims that point at those four files pass.  Three findings from running them
+have been carried back into the handoff bundle -- the relative error of the identity near
+`c_hat1`, the spacing convention of the finite-difference comparison, and the rule that
+separates an isolated eigenvalue from the discretized essential spectrum -- so `note.tex`,
+`SCIENCE_BRIEF.md` and `claims.yaml` now agree with the committed data.  Experiments 05-08
+(null-vector decay, the full spectrum snapshot, conformal symplecticity, the scope survey)
+and `scripts/check_claims.py` are not written yet.
