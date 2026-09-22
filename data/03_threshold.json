@@ -3,7 +3,7 @@
   "schema": 1,
   "script": "scripts/03_threshold.py",
   "quick": false,
-  "created": "2026-09-21T06:37:25+00:00",
+  "created": "2026-09-22T01:09:27+00:00",
   "sections": [
    "rows",
    "zeros",
@@ -11,15 +11,17 @@
    "m_sign",
    "m_scan"
   ],
-  "elapsed_sec": 275.819,
+  "elapsed_sec": 281.985,
+  "peak_rss_mb": 1134.5,
   "config": "configs/03_threshold.yaml",
   "config_sha256_16": "3ed1d2c0a9d1e49f",
   "versions": {
+   "platform": "Linux-6.18.44-fc-v37-x86_64-with-glibc2.39",
    "python": "3.11.15",
    "numpy": "2.4.6",
    "scipy": "1.17.1"
   },
-  "git_commit": "edcf07f",
+  "git_commit": "485af29",
   "config_contents": {
    "grid": {
     "L": 200.0,

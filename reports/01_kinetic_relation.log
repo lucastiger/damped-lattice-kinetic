@@ -1,4 +1,3 @@
-
 (a) boundary-condition check  (stage-1 template w0 = 0.474974, L = 200, N = 2048)
             quantity               value
 --------------------  ------------------
@@ -42,4 +41,5 @@ secant  0.898929749  0.6501917819  -5.482e-09    4.88e-13
 secant  0.898929749  0.6501917819  +1.350e-11    5.30e-13
     c_hat1 = 0.8989297   sigma_hat1 = 0.6501918   sigma'(c_hat1) = +1.35e-11  (4 secant iterations)
 
-wrote data/01_kinetic.json  (1125.7 s, quick=False)
+wrote data/01_kinetic.json  (637.2 s, quick=False)
+

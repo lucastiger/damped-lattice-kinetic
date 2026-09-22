@@ -1,4 +1,3 @@
-
 (a) decay envelopes  (c = 0.89, L = 200, N = 4096; each function normalized by its own max -- NOT monotone, the tails oscillate)
 |xi|  nearest grid xi        phi'        phat  ratio
 ----  ---------------  ----------  ----------  -----
@@ -16,7 +15,7 @@ vector  fraction
   phi'  0.989814
   phat  0.989794
 
-(c) smallest singular values of M0  (L = 200, N = 2048, c = 0.89; 1.4 s)
+(c) smallest singular values of M0  (L = 200, N = 2048, c = 0.89; 1.3 s)
 index  singular value
 -----  --------------
    s1    2.659944e-09
@@ -42,4 +41,5 @@ ENVELOPE ratio (symmetrized in |xi|), 10-wide windows: max          1
     GROWTH the weight would force out to |xi| = 150.  The two envelopes track each other instead:
     phat is NOT phi' in the weight exp(-gamma xi/c), so H3 does not follow from the decay of phi'.
 
-wrote data/05_nullvec.json  (50.0 s, quick=False)
+wrote data/05_nullvec.json  (42.4 s, quick=False)
+

@@ -3,21 +3,23 @@
   "schema": 1,
   "script": "scripts/01_kinetic_relation.py",
   "quick": false,
-  "created": "2026-09-21T05:40:39+00:00",
+  "created": "2026-09-22T00:52:55+00:00",
   "sections": [
    "bc_check",
    "curve",
    "critical"
   ],
-  "elapsed_sec": 1125.654,
+  "elapsed_sec": 637.164,
+  "peak_rss_mb": 877.0,
   "config": "configs/01_kinetic_relation.yaml",
   "config_sha256_16": "aae0b949366baa05",
   "versions": {
+   "platform": "Linux-6.18.44-fc-v37-x86_64-with-glibc2.39",
    "python": "3.11.15",
    "numpy": "2.4.6",
    "scipy": "1.17.1"
   },
-  "git_commit": "edcf07f",
+  "git_commit": "485af29",
   "config_contents": {
    "grid": {
     "L": 200.0,

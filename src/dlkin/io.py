@@ -32,6 +32,7 @@ import datetime as _dt
 import hashlib
 import json
 import platform
+import resource
 import subprocess
 from pathlib import Path
 from typing import Any, Dict, Iterable, Mapping, MutableMapping, Sequence
@@ -44,6 +45,7 @@ __all__ = [
     "load_result",
     "build_metadata",
     "deep_merge",
+    "get",
     "get_path",
     "set_path",
     "to_jsonable",
@@ -111,6 +113,11 @@ def get_path(data: Mapping[str, Any], key: str, separator: str = "/") -> Any:
     return node
 
 
+#: Short alias for :func:`get_path`; ``dlkin.io.get(document, "critical/c_hat1")`` is how
+#: ``scripts/check_claims.py`` resolves a claim's key path.
+get = get_path
+
+
 def set_path(
     data: MutableMapping[str, Any], key: str, value: Any, separator: str = "/"
 ) -> None:
@@ -164,8 +171,14 @@ def build_metadata(
 
     Records what was run (script, config file and its sha256 prefix, which sections),
     under what (``quick``), with what (interpreter and library versions, git commit) and
-    how long it took.  The timestamp is provenance only: no code path anywhere in this
-    package branches on wall-clock time.
+    what it cost (wall time and peak resident set).  The timestamp is provenance only: no
+    code path anywhere in this package branches on wall-clock time.
+
+    ``peak_rss_mb`` is the high-water mark of the whole process, so it covers the dense
+    matrices the run allocated and is what ``reports/RUNTIME.md`` is built from.  It is
+    read from ``getrusage``, which reports kibibytes on Linux and bytes on macOS; only the
+    Linux reading is converted, so the number is right on the platform the repository is
+    run on and is labelled with that platform in ``versions``.
     """
     import scipy  # noqa: PLC0415  -- imported here only to report its version
 
@@ -176,9 +189,11 @@ def build_metadata(
         "created": _dt.datetime.now(_dt.timezone.utc).isoformat(timespec="seconds"),
         "sections": list(sections) if sections is not None else None,
         "elapsed_sec": None if elapsed_sec is None else round(float(elapsed_sec), 3),
+        "peak_rss_mb": round(resource.getrusage(resource.RUSAGE_SELF).ru_maxrss / 1024.0, 1),
         "config": None if config_path is None else str(config_path),
         "config_sha256_16": None if config_path is None else _digest(Path(config_path)),
         "versions": {
+            "platform": platform.platform(),
             "python": platform.python_version(),
             "numpy": np.__version__,
             "scipy": scipy.__version__,

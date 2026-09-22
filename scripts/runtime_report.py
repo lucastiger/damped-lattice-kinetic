@@ -1,0 +1,214 @@
+#!/usr/bin/env python3
+"""Write reports/RUNTIME.md from what the data files recorded about their own runs.
+
+Every result file carries ``elapsed_sec`` and ``peak_rss_mb`` in its metadata, so the cost
+of the pipeline is not something anyone has to remember or measure by hand -- it is read
+back from the same files the claims are checked against, and it is re-derived every time
+``make data`` runs.  A number here that looks stale is stale, and ``scripts/provenance.py``
+will say so.
+"""
+
+from __future__ import annotations
+
+import datetime as dt
+import json
+import subprocess
+from pathlib import Path
+
+REPO_ROOT = Path(__file__).resolve().parents[1]
+DATA = REPO_ROOT / "data"
+OUT = REPO_ROOT / "reports" / "RUNTIME.md"
+
+#: Anything at or above this is called out; it is roughly where a CI job stops being free.
+SLOW_MINUTES = 10.0
+
+#: script -> (data file, what dominates its cost).  The prose lives here because this is
+#: the only place that knows the pipeline as a whole.
+PIPELINE = [
+    (
+        "01_kinetic_relation",
+        "01_kinetic.json",
+        "714 continuation points at N=2048, each a Newton solve plus three dense solves "
+        "(bordered branch derivative, inverse iteration for phat, bordered system for m)",
+    ),
+    (
+        "02_identity_convergence",
+        "02_identity.json",
+        "the c=0.5 -> 0.90015 sweep (166 Newton solves at N=4096) and the L300_N6144 "
+        "convergence case (6145x6145 dense, several live at once)",
+    ),
+    (
+        "03_threshold",
+        "03_threshold.json",
+        "nine shift-invert Arnoldi solves at N=4096 (complex LU of 4096x4096 each)",
+    ),
+    (
+        "04_fold_arclength",
+        "04_fold.json",
+        "62 arclength steps with the spectrum sampled at 19 of them, plus 2x150 steps for "
+        "the two invariant runs",
+    ),
+    ("05_null_vectors", "05_nullvec.json", "one full 2048x2048 SVD, plus three branch landings"),
+    ("06_spectrum", "06_spectrum.json", "two Arnoldi windows of k=40 at N=2048"),
+    (
+        "07_conformal_symplectic",
+        "07_conformal.json",
+        "12 random-K flow tests, plus two RK4 monodromy integrations of a 400x400 system "
+        "over 1124 steps",
+    ),
+    (
+        "08_general_lattices",
+        "08_general.json",
+        "five lattices x four continuation points from a flat start, the N=4096 refinement, "
+        "and the non-converging mu2=+0.35 attempt (40 Newton iterations before it gives up)",
+    ),
+]
+
+
+def head() -> str:
+    try:
+        out = subprocess.run(
+            ["git", "rev-parse", "--short", "HEAD"],
+            cwd=REPO_ROOT, capture_output=True, text=True, timeout=10, check=False,
+        )
+    except (OSError, subprocess.SubprocessError):
+        return "unknown"
+    return out.stdout.strip() or "unknown"
+
+
+def main() -> int:
+    rows, total_sec, peak, missing, quick = [], 0.0, 0.0, [], []
+    platform = None
+    for script, data_file, note in PIPELINE:
+        path = DATA / data_file
+        if not path.is_file():
+            missing.append(data_file)
+            rows.append((script, data_file, None, None, note, False))
+            continue
+        meta = json.loads(path.read_text(encoding="utf-8")).get("metadata", {}) or {}
+        secs = meta.get("elapsed_sec")
+        rss = meta.get("peak_rss_mb")
+        platform = platform or (meta.get("versions") or {}).get("platform")
+        is_quick = bool(meta.get("quick"))
+        if is_quick:
+            quick.append(data_file)
+        # a section run on its own and merged in still cost time; count it
+        for previous in meta.get("previous_runs") or []:
+            secs = (secs or 0.0) + float(previous.get("elapsed_sec") or 0.0)
+        if secs:
+            total_sec += float(secs)
+        if rss:
+            peak = max(peak, float(rss))
+        rows.append((script, data_file, secs, rss, note, is_quick))
+
+    slow = [r for r in rows if r[2] and r[2] / 60.0 >= SLOW_MINUTES]
+    # the two obstacles named below are whichever scripts actually dominate this run's
+    # time and memory, with their own notes, so the prose cannot drift from the table
+    timed = sorted((r for r in rows if r[2]), key=lambda r: -r[2])
+    worst_name = timed[0][0] if timed else "(none)"
+    worst_note = timed[0][4] if timed else ""
+    worst_share = 100.0 * timed[0][2] / total_sec if timed and total_sec else 0.0
+    top2_share = (
+        100.0 * (timed[0][2] + timed[1][2]) / total_sec if len(timed) > 1 and total_sec else 0.0
+    )
+    second_name = timed[1][0] if len(timed) > 1 else "(none)"
+    by_mem = sorted((r for r in rows if r[3]), key=lambda r: -r[3])
+    hungry_name = by_mem[0][0] if by_mem else "(none)"
+
+    lines = [
+        "# Runtime and memory",
+        "",
+        "Wall time and peak resident set for each experiment at **production** settings, read "
+        "back from the `metadata` block of the data file each one wrote. Regenerated by "
+        "`make data`; if these numbers look stale, `scripts/provenance.py` will say so.",
+        "",
+        f"- host: `{platform or 'unknown'}`, 4 cores, OpenBLAS",
+        f"- git sha: `{head()}`",
+        f"- generated: {dt.datetime.now(dt.timezone.utc).isoformat(timespec='seconds')}",
+        "",
+        "| script | data | wall time | peak RSS | what dominates |",
+        "|---|---|---:|---:|---|",
+    ]
+    for script, data_file, secs, rss, note, is_quick in rows:
+        wall = "**missing**" if secs is None else (
+            f"**{secs / 60.0:.1f} min**" if secs / 60.0 >= SLOW_MINUTES else
+            (f"{secs / 60.0:.1f} min" if secs >= 90 else f"{secs:.0f} s")
+        )
+        mem = "--" if not rss else f"{rss:,.0f} MB"
+        flag = " _(QUICK DATA)_" if is_quick else ""
+        lines.append(f"| `{script}.py` | `{data_file}` | {wall} | {mem} | {note}{flag} |")
+    lines += [
+        f"| **total** | | **{total_sec / 60.0:.1f} min** | **{peak:,.0f} MB** (peak of any one "
+        "script) | |",
+        "",
+    ]
+
+    if missing:
+        lines += [
+            f"> **{len(missing)} data file(s) missing**: {', '.join(missing)}. Run `make data`.",
+            "",
+        ]
+    if quick:
+        lines += [
+            f"> **{len(quick)} file(s) hold QUICK data** and their timings are not production "
+            f"timings: {', '.join(quick)}.",
+            "",
+        ]
+
+    lines += ["## Flagged: over 10 minutes", ""]
+    if slow:
+        for script, data_file, secs, _rss, note, _q in slow:
+            lines.append(f"- **`{script}.py` — {secs / 60.0:.1f} min.** {note}.")
+        lines.append("")
+    else:
+        lines += ["Nothing exceeds 10 minutes.", ""]
+
+    lines += [
+        "## What is practical in CI, and what is not",
+        "",
+        "**Run on every push.**",
+        "",
+        "| target | cost | why it is safe |",
+        "|---|---|---|",
+        "| `make test` | ~10 s | the fast suite; it includes the bit-for-bit comparisons "
+        "against `handoff/reference/*.py`, which is what actually guards the numerics |",
+        "| `make test-slow` | ~14 s | dense eigensolves and the RK4 monodromy, at reduced N |",
+        "| `make data-quick` | ~1.5 min | all eight experiments end to end at reduced `L`/`N`; "
+        "catches a script that has stopped running, a key that has stopped being emitted, or "
+        "a config that no longer parses |",
+        "| `python scripts/check_claims.py` | instant | non-strict, so the quick data is "
+        "skipped **loudly** and the exit code still reflects real failures |",
+        "",
+        "**Do not run on every push.**",
+        "",
+        f"`make data` costs {total_sec / 60.0:.0f} minutes of wall time and up to "
+        f"{peak:,.0f} MB of resident memory in a single process, and it is CPU-bound dense "
+        "linear algebra throughout, so it does not parallelise across a matrix of runners -- "
+        "it just takes as long as it takes. Two specific obstacles:",
+        "",
+        f"- **`{worst_name}.py` alone is {worst_share:.0f}% of the wall time**, and with "
+        f"`{second_name}.py` the two are {top2_share:.0f}% of it. There is no way around "
+        f"either: {worst_note}.",
+        f"- **`{hungry_name}.py` peaks at ~{peak:,.0f} MB in a single process**, which "
+        "exceeds the memory of the smaller hosted runners. Its heaviest case has its own "
+        "selector -- `--only convergence --cases L300_N6144` -- precisely so it can be run "
+        "apart from the rest and merged back into the result file.",
+        "",
+        "**The arrangement this suggests.** Gate pushes on `make test` plus `make data-quick` "
+        "plus a non-strict claim check. Run `make data && make check` (strict) on a schedule "
+        "and before anything is sent out, and commit the resulting `data/*.json` — they are "
+        "part of the reproducibility record, not build output, so the expensive path runs "
+        "once per change to the numerics rather than once per push. `scripts/provenance.py` "
+        "reports the git sha recorded in each data file against `HEAD`, so a reviewer can see "
+        "at a glance whether the committed data predates the code it is supposed to have come "
+        "from.",
+        "",
+    ]
+    OUT.parent.mkdir(parents=True, exist_ok=True)
+    OUT.write_text("\n".join(lines), encoding="utf-8")
+    print(f"wrote {OUT.relative_to(REPO_ROOT)}  (total {total_sec / 60.0:.1f} min, peak {peak:,.0f} MB)")
+    return 0
+
+
+if __name__ == "__main__":
+    raise SystemExit(main())

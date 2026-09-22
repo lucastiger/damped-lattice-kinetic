@@ -21,6 +21,6 @@ refinement: mu2m05 at N = 4096
           kappa       0.75640824
          relerr  2.415486684e-12
 Newton residual  1.993960552e-12
-    mu2p035: continuation from psi=0 did not converge at c=0.55; final residual 1.249e+00 (4.3 s)
+    mu2p035: continuation from psi=0 did not converge at c=0.55; final residual 1.249e+00 (3.9 s)
 
-wrote data/08_general.json  (50.6 s, quick=False)
+wrote data/08_general.json  (45.1 s, quick=False)
