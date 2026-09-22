@@ -14,7 +14,14 @@ dependencies = [
     "scipy>=1.10",
     "pyyaml>=6.0",
     "matplotlib>=3.7",
+]
+
+[project.optional-dependencies]
+# `make install` installs these: everything needed to run the test suite and the
+# reproduction pipeline, on top of the runtime dependencies above.
+dev = [
     "pytest>=7.0",
+    "pyflakes>=3.0",
 ]
 
 [project.urls]

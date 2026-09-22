@@ -69,4 +69,5 @@ zero of sigma'  0.898929334
 0.8950     208.999
     min m = 9.936 over 23 velocities; all positive: True
 
-wrote data/03_threshold.json  (275.8 s, quick=False)
+wrote data/03_threshold.json  (282.0 s, quick=False)
+

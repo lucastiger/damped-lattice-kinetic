@@ -3,22 +3,24 @@
   "schema": 1,
   "script": "scripts/02_identity_convergence.py",
   "quick": false,
-  "created": "2026-09-21T06:05:42+00:00",
+  "created": "2026-09-22T01:04:45+00:00",
   "sections": [
    "c089",
    "convergence",
-   "fd",
-   "sweep"
+   "sweep",
+   "fd"
   ],
-  "elapsed_sec": 489.033,
+  "elapsed_sec": 709.793,
+  "peak_rss_mb": 2008.8,
   "config": "configs/02_identity_convergence.yaml",
-  "config_sha256_16": "c90d30cf046bc170",
+  "config_sha256_16": "6516901b4ce87692",
   "versions": {
+   "platform": "Linux-6.18.44-fc-v37-x86_64-with-glibc2.39",
    "python": "3.11.15",
    "numpy": "2.4.6",
    "scipy": "1.17.1"
   },
-  "git_commit": "edcf07f",
+  "git_commit": "485af29",
   "config_contents": {
    "grid": {
     "L": 200.0,
@@ -134,146 +136,7 @@
    }
   },
   "normalization": "minus2pi",
-  "cases": null,
-  "previous_runs": [
-   {
-    "schema": 1,
-    "script": "scripts/02_identity_convergence.py",
-    "quick": false,
-    "created": "2026-09-21T05:52:27+00:00",
-    "sections": [
-     "c089",
-     "convergence",
-     "sweep",
-     "fd"
-    ],
-    "elapsed_sec": 652.046,
-    "config": "configs/02_identity_convergence.yaml",
-    "config_sha256_16": "097e4db221b9142e",
-    "versions": {
-     "python": "3.11.15",
-     "numpy": "2.4.6",
-     "scipy": "1.17.1"
-    },
-    "git_commit": "edcf07f",
-    "config_contents": {
-     "grid": {
-      "L": 200.0,
-      "N": 4096
-     },
-     "model": {
-      "mu": 1.0,
-      "gamma": 0.1,
-      "mu2": 0.0,
-      "couplings": [
-       [
-        1,
-        1.0
-       ]
-      ],
-      "template_width": 2.0
-     },
-     "run": {
-      "phat": {
-       "normalization": "minus2pi",
-       "seed": 0,
-       "iters": 80,
-       "shift": 1e-14
-      },
-      "newton": {
-       "tol": 1e-12,
-       "maxit": 40
-      },
-      "c089": {
-       "L": 200.0,
-       "N": 4096,
-       "c0": 0.88,
-       "approach": {
-        "start": 0.881,
-        "stop": 0.89,
-        "step": 0.001
-       },
-       "c": 0.89
-      },
-      "convergence": {
-       "c0": 0.88,
-       "approach": {
-        "start": 0.881,
-        "stop": 0.89,
-        "step": 0.001
-       },
-       "c": 0.89,
-       "cases": {
-        "L200_N1024": {
-         "L": 200.0,
-         "N": 1024
-        },
-        "L200_N2048": {
-         "L": 200.0,
-         "N": 2048
-        },
-        "L200_N4096": {
-         "L": 200.0,
-         "N": 4096
-        },
-        "L300_N3072": {
-         "L": 300.0,
-         "N": 3072
-        },
-        "L300_N6144": {
-         "L": 300.0,
-         "N": 6144
-        },
-        "L150_N2048": {
-         "L": 150.0,
-         "N": 2048
-        }
-       }
-      },
-      "sweep": {
-       "L": 200.0,
-       "N": 4096,
-       "c0": 0.88,
-       "walk_step": 0.005,
-       "fine_from": 0.8995,
-       "fine_step": 5e-05,
-       "decimals": 7,
-       "targets": [
-        0.5,
-        0.7,
-        0.85,
-        0.89,
-        0.895,
-        0.898,
-        0.8988,
-        0.89892,
-        0.899,
-        0.8992,
-        0.8995,
-        0.8998,
-        0.8999,
-        0.9,
-        0.90015
-       ]
-      },
-      "fd": {
-       "L": 200.0,
-       "N": 4096,
-       "c0": 0.88,
-       "approach": {
-        "start": 0.881,
-        "stop": 0.89,
-        "step": 0.001
-       },
-       "c": 0.89,
-       "step": 0.001
-      }
-     }
-    },
-    "normalization": "minus2pi",
-    "cases": null
-   }
-  ]
+  "cases": null
  },
  "quick": false,
  "c089": {
@@ -309,7 +172,7 @@
    "kappa": 12.132860291684777,
    "sigma_prime": 1.9304160085411186,
    "newton_residual": 3.82804898890754e-13,
-   "elapsed_sec": 0.79
+   "elapsed_sec": 0.87
   },
   "L200_N2048": {
    "L": 200.0,
@@ -321,7 +184,7 @@
    "kappa": 12.095961666612489,
    "sigma_prime": 1.9251320664977578,
    "newton_residual": 6.404876629062528e-13,
-   "elapsed_sec": 3.86
+   "elapsed_sec": 4.92
   },
   "L200_N4096": {
    "L": 200.0,
@@ -333,7 +196,7 @@
    "kappa": 12.095961479840406,
    "sigma_prime": 1.9251320609658384,
    "newton_residual": 5.657696533489798e-13,
-   "elapsed_sec": 33.46
+   "elapsed_sec": 36.95
   },
   "L300_N3072": {
    "L": 300.0,
@@ -345,7 +208,7 @@
    "kappa": 12.095961666599466,
    "sigma_prime": 1.9251320664956453,
    "newton_residual": 7.20201676074339e-13,
-   "elapsed_sec": 12.96
+   "elapsed_sec": 13.54
   },
   "L300_N6144": {
    "L": 300.0,
@@ -357,7 +220,7 @@
    "kappa": 12.095961479822558,
    "sigma_prime": 1.9251320609630975,
    "newton_residual": 7.963629755636248e-13,
-   "elapsed_sec": 110.96
+   "elapsed_sec": 117.37
   },
   "L150_N2048": {
    "L": 150.0,
@@ -369,7 +232,7 @@
    "kappa": 12.095961479646828,
    "sigma_prime": 1.9251320609297478,
    "newton_residual": 3.084199562408685e-13,
-   "elapsed_sec": 4.93
+   "elapsed_sec": 5.36
   }
  },
  "sweep": {
@@ -392,8 +255,6 @@
    "0.90000": 4.721271932498305e-13,
    "0.90015": 7.286170623653214e-12
   },
-  "max_relerr": 1.7546860201946035e-10,
-  "argmax_c": 0.89892,
   "abs_err": {
    "0.50000": 4.574118861455645e-14,
    "0.70000": 4.085620730620576e-14,
@@ -411,6 +272,8 @@
    "0.90000": 1.4445333818002837e-11,
    "0.90015": 6.173479505378054e-10
   },
+  "max_relerr": 1.7546860201946035e-10,
+  "argmax_c": 0.89892,
   "max_abs_err": 6.173479505378054e-10,
   "argmax_abs_c": 0.90015
  },
@@ -420,12 +283,12 @@
   "N": 4096,
   "c": 0.89,
   "step": 0.001,
+  "convention": "(sigma(c + step/2) - sigma(c - step/2)) / step",
   "sigma_minus": 0.6363325771809575,
   "sigma_plus": 0.6382573955370777,
   "sigma_prime_exact": 1.9251320609658384,
   "sigma_prime_fd": 1.9248183561202392,
   "relative_discrepancy": 0.0001629523771173609,
-  "convention": "(sigma(c + step/2) - sigma(c - step/2)) / step",
   "sigma_prime_fd_double_spacing": 1.9238731303475864,
   "relative_discrepancy_double_spacing": 0.0006539450689010868
  }

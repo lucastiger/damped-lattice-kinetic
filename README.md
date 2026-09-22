@@ -13,9 +13,46 @@ reproduce are listed in [`handoff/claims.yaml`](handoff/claims.yaml).
 
 ```bash
 python -m venv .venv && . .venv/bin/activate
-pip install -e .
-pytest -q
+make install          # pip install -e ".[dev]"
+make test             # pytest -q -m "not slow"
 ```
+
+## Reproducing everything
+
+```bash
+make data             # experiments 01-08 at production settings   (~50 min, up to ~2 GB)
+make check            # resolve every claims.yaml claim, strictly, and write the report
+make all              # data figures tables check
+```
+
+`make data-quick` runs the same eight experiments at reduced `L`/`N` in about a minute;
+those results are **not** expected to reproduce `claims.yaml` and the data files they write
+say so, which `make check` then refuses to count as passes.
+
+Nothing reuses stale data in silence. Every result file records the git sha and the wall
+clock it was produced at, `make data` prints them before and after the run via
+[`scripts/provenance.py`](scripts/provenance.py), and a file built at a commit other than
+`HEAD` is called out. [`reports/RUNTIME.md`](reports/RUNTIME.md) is regenerated from the
+same metadata and says which parts of the pipeline are impractical in CI.
+
+## Checking the manuscript against the data
+
+[`scripts/check_claims.py`](scripts/check_claims.py) resolves all 125 claims of the
+manifest against `data/*.json` and writes
+[`reports/validation_report.md`](reports/validation_report.md) plus a machine-readable
+`reports/validation.json`. The manifest lives in two places on purpose:
+`handoff/claims.yaml` is where it arrived, and `manuscript/claims.yaml` is the copy that
+travels with the paper — the checker prefers the manuscript copy, and
+`--compare-manifests` reports if the two have drifted apart.
+
+Three rules, all of them there because a claim that quietly goes unchecked is worse than
+one that visibly fails:
+
+- a missing file or an unresolvable key is a **failure**, never a skip;
+- a data file marked `quick` has its claims reported `SKIPPED-QUICK`, loudly, and
+  `--strict` (which `make check` uses) turns those into failures;
+- a claim marked `exact_replication` that fails gets its own section, *procedural drift*,
+  because the fix there is never to widen the tolerance.
 
 ## Layout
 
@@ -30,6 +67,9 @@ pytest -q
 | `src/dlkin/config.py` | YAML config loading, resolution and the `quick:` overlay |
 | `src/dlkin/io.py` | result files: the metadata block, key-path access, merged partial runs |
 | `configs/`, `scripts/` | experiment configurations and drivers |
+| `scripts/check_claims.py` | resolves `claims.yaml` against `data/*.json`; writes the validation report |
+| `manuscript/claims.yaml` | the copy of the manifest that travels with the paper |
+| `Makefile`, `scripts/reproduce_all.sh` | the reproduction pipeline (the Makefile is primary) |
 | `data/`, `figures/`, `tables/`, `reports/` | generated output (tracked, not ignored) |
 | `handoff/` | science brief, claims manifest and the reference implementation |
 
@@ -81,4 +121,6 @@ through the co-traveling pencil, so that neither computation assumes the other. 
 reproduces `rho = 1`, its conformal partner `e^{-gamma/c}`, and — at `c = 0.8995` — the
 unstable multiplier `1.019749` that the pencil predicts from `nu_2 = +0.017591`, to 5e-8.
 
-`scripts/check_claims.py` is not written yet.
+`scripts/check_claims.py`, the `Makefile` pipeline and the validation report are in
+place. Figures and tables are not built yet (`make figures` and `make tables` are
+placeholders).
