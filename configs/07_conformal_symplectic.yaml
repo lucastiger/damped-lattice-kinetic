@@ -1,0 +1,71 @@
+# Conformal symplecticity (R1): M^T J M = e^{-gamma T} J, twice over.
+#
+# (a) on a random symmetric K(t) -- the algebra alone, no lattice;
+# (b) on the ACTUAL Frenkel-Kontorova monodromy about a computed traveling kink, integrated
+#     in time with RK4, which imposes no structure. (b) is an independent cross-check and
+#     is NOT claimed in the manuscript.
+#
+# Production settings; `--quick` deep-merges the `quick:` section over everything above.
+
+grid:
+  L: 200.0
+  N: 2048
+
+model:
+  mu: 1.0
+  gamma: 0.1
+  mu2: 0.0
+  couplings: [[1, 1.0]]
+  template_width: 2.0
+
+run:
+  newton: {tol: 1.0e-12, maxit: 40}
+  c0: 0.88
+  approach: {start: 0.881, stop: 0.890, step: 1.0e-3}
+  walk_step: 1.0e-3
+  decimals: 7
+
+  # (a) the claimed setting
+  random_K:
+    n: 8
+    gamma: 0.37
+    T: 0.9
+    dt: 1.0e-4
+    seed: 1
+    integrator: expm
+
+  # (a') the same identity over a grid of settings, so it cannot be read as an artefact of
+  #      one choice.  `expm` satisfies the relation per step by construction and measures
+  #      accumulated round-off; `rk4` imposes nothing and measures the integration error,
+  #      which must fall with dt.
+  sweep:
+    gamma: 0.37
+    T: 0.9
+    seed: 1
+    n: [4, 8, 16]
+    dt: [1.0e-3, 1.0e-4]
+    integrators: [expm, rk4]
+
+  # (b) the real thing
+  direct_monodromy:
+    L: 200.0
+    N: 2048
+    n_sites: 200
+    n_steps: 1124            # dt = T/n_steps ~ 1e-3 at c = 0.89
+    n_leading: 8
+    pencil: {shift: 0.004, k: 24, tol: 1.0e-10}
+    cases:
+      c089: 0.89
+      c08995: 0.8995         # past the threshold: an unstable multiplier to match
+    thresholds:
+      cs_relerr: 1.0e-10     # conformal-symplectic residual of the FK monodromy
+      rho_match: 1.0e-6      # |rho - 1| and |rho - e^{-gamma/c}|
+
+quick:
+  grid: {L: 100.0, N: 1024}
+  run:
+    approach: {start: 0.885, stop: 0.890, step: 5.0e-3}
+    walk_step: 5.0e-3
+    random_K: {T: 0.2, dt: 1.0e-3}
+    sweep: {T: 0.2, n: [4, 8], dt: [1.0e-2, 1.0e-3]}
+    direct_monodromy: {L: 100.0, N: 1024, n_sites: 80, n_steps: 300}

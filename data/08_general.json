@@ -1,0 +1,292 @@
+{
+ "metadata": {
+  "schema": 1,
+  "script": "scripts/08_general_lattices.py",
+  "quick": false,
+  "created": "2026-09-22T00:25:09+00:00",
+  "sections": [
+   "rows",
+   "refinement",
+   "expected_failure"
+  ],
+  "elapsed_sec": 50.596,
+  "config": "configs/08_general_lattices.yaml",
+  "config_sha256_16": "01e3931adfe21e1e",
+  "versions": {
+   "python": "3.11.15",
+   "numpy": "2.4.6",
+   "scipy": "1.17.1"
+  },
+  "git_commit": "8b14d1c",
+  "config_contents": {
+   "grid": {
+    "L": 200.0,
+    "N": 2048
+   },
+   "model": {
+    "mu": 1.0,
+    "gamma": 0.1,
+    "mu2": 0.0,
+    "couplings": [
+     [
+      1,
+      1.0
+     ]
+    ],
+    "template_width": 2.0
+   },
+   "run": {
+    "newton": {
+     "tol": 1e-11,
+     "maxit": 40
+    },
+    "phat": {
+     "normalization": "unit",
+     "seed": 0,
+     "iters": 80,
+     "shift": 1e-14
+    },
+    "L": 200.0,
+    "N": 2048,
+    "c_values": [
+     0.55,
+     0.65,
+     0.75,
+     0.82
+    ],
+    "c": 0.82,
+    "psi0": 0.0,
+    "drive0": 0.5,
+    "rows": {
+     "fk": {
+      "mu": 1.0,
+      "mu2": 0.0,
+      "couplings": [
+       [
+        1,
+        1.0
+       ]
+      ],
+      "gamma": 0.1
+     },
+     "mu2m05": {
+      "mu": 1.0,
+      "mu2": -0.5,
+      "couplings": [
+       [
+        1,
+        1.0
+       ]
+      ],
+      "gamma": 0.1
+     },
+     "nnn": {
+      "mu": 1.0,
+      "mu2": 0.0,
+      "couplings": [
+       [
+        1,
+        1.0
+       ],
+       [
+        2,
+        0.25
+       ]
+      ],
+      "gamma": 0.1
+     },
+     "mu2nnn": {
+      "mu": 1.0,
+      "mu2": 0.3,
+      "couplings": [
+       [
+        1,
+        1.0
+       ],
+       [
+        2,
+        0.2
+       ]
+      ],
+      "gamma": 0.1
+     },
+     "soft": {
+      "mu": 0.6,
+      "mu2": 0.0,
+      "couplings": [
+       [
+        1,
+        1.0
+       ]
+      ],
+      "gamma": 0.2
+     }
+    },
+    "refinement": {
+     "row": "mu2m05",
+     "N": 4096
+    },
+    "expected_failure": {
+     "mu2p035": {
+      "mu": 1.0,
+      "mu2": 0.35,
+      "couplings": [
+       [
+        1,
+        1.0
+       ]
+      ],
+      "gamma": 0.1
+     }
+    }
+   }
+  },
+  "normalization": "unit"
+ },
+ "quick": false,
+ "rows": {
+  "fk": {
+   "mu": 1.0,
+   "mu2": 0.0,
+   "gamma": 0.1,
+   "couplings": [
+    [
+     1,
+     1.0
+    ]
+   ],
+   "c": 0.82,
+   "L": 200.0,
+   "N": 2048,
+   "f": 0.4819599977075223,
+   "fprime": 2.174155966540809,
+   "kappa": 1.1466593605605642,
+   "phat_one": -0.5274043713574224,
+   "pred": 1.1466593607664444,
+   "relerr": 1.7954783157055942e-10,
+   "residual": 1.1129985821867194e-13,
+   "status": "converged"
+  },
+  "mu2m05": {
+   "mu": 1.0,
+   "mu2": -0.5,
+   "gamma": 0.1,
+   "couplings": [
+    [
+     1,
+     1.0
+    ]
+   ],
+   "c": 0.82,
+   "L": 200.0,
+   "N": 2048,
+   "f": 0.5403255333365237,
+   "fprime": 2.6762681698081257,
+   "kappa": 1.06973274914862,
+   "phat_one": -0.39971216759025807,
+   "pred": 1.0697369512068187,
+   "relerr": 3.9281228847818946e-06,
+   "residual": 2.9176661087149114e-13,
+   "status": "converged"
+  },
+  "nnn": {
+   "mu": 1.0,
+   "mu2": 0.0,
+   "gamma": 0.1,
+   "couplings": [
+    [
+     1,
+     1.0
+    ],
+    [
+     2,
+     0.25
+    ]
+   ],
+   "c": 0.82,
+   "L": 200.0,
+   "N": 2048,
+   "f": 0.1663325617412058,
+   "fprime": 0.601745652897156,
+   "kappa": 0.4806266005106739,
+   "phat_one": -0.7987205195362181,
+   "pred": 0.48062660051067724,
+   "relerr": 6.92984755803477e-15,
+   "residual": 1.028066520802895e-13,
+   "status": "converged"
+  },
+  "mu2nnn": {
+   "mu": 1.0,
+   "mu2": 0.3,
+   "gamma": 0.1,
+   "couplings": [
+    [
+     1,
+     1.0
+    ],
+    [
+     2,
+     0.2
+    ]
+   ],
+   "c": 0.82,
+   "L": 200.0,
+   "N": 2048,
+   "f": 0.1915124488009278,
+   "fprime": 1.0090120307411885,
+   "kappa": 0.7354070282006255,
+   "phat_one": -0.7288387113132203,
+   "pred": 0.7354070281849433,
+   "relerr": 2.1324562709773137e-11,
+   "residual": 1.4854784069484595e-13,
+   "status": "converged"
+  },
+  "soft": {
+   "mu": 0.6,
+   "mu2": 0.0,
+   "gamma": 0.2,
+   "couplings": [
+    [
+     1,
+     1.0
+    ]
+   ],
+   "c": 0.82,
+   "L": 200.0,
+   "N": 2048,
+   "f": 0.3799079950755514,
+   "fprime": 1.48768763411066,
+   "kappa": 1.1779353111950337,
+   "phat_one": -0.7917894080630581,
+   "pred": 1.1779353111952109,
+   "relerr": 1.5042557349807666e-13,
+   "residual": 3.5813019216845987e-13,
+   "status": "converged"
+  },
+  "mu2p035": {
+   "mu": 1.0,
+   "mu2": 0.35,
+   "couplings": [
+    [
+     1,
+     1.0
+    ]
+   ],
+   "gamma": 0.1,
+   "status": "continuation from psi=0 did not converge at c=0.55",
+   "residual": 1.2486055817963797,
+   "converged": false,
+   "elapsed_sec": 4.26
+  }
+ },
+ "refinement": {
+  "row": "mu2m05",
+  "N": 4096,
+  "mu2m05_N4096_relerr": 2.4154866843324422e-12,
+  "mu2m05_N4096_fprime": 2.676266648741291,
+  "mu2m05_N4096_f": 0.5403273566626305,
+  "mu2m05_N4096_kappa": 0.7564082399961478,
+  "residual": 1.993960552226781e-12,
+  "status": "converged"
+ }
+}

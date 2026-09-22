@@ -1,0 +1,50 @@
+# A snapshot of the pencil spectrum at two velocities: one stable, one past the threshold.
+#
+# The two structural eigenvalues (nu = 0 from ker M0, nu = -gamma from the duality R2) and
+# the closure of the computed set under nu -> -gamma - nu are checks on the computation;
+# the count of OTHER real eigenvalues is the result.
+#
+# Production settings; `--quick` deep-merges the `quick:` section over everything above.
+
+grid:
+  L: 200.0
+  N: 2048
+
+model:
+  mu: 1.0
+  gamma: 0.1
+  mu2: 0.0
+  couplings: [[1, 1.0]]
+  template_width: 2.0
+
+run:
+  phat: {normalization: minus2pi, seed: 0, iters: 80, shift: 1.0e-14}
+  newton: {tol: 1.0e-12, maxit: 40}
+  c0: 0.88
+  approach: {start: 0.881, stop: 0.890, step: 1.0e-3}
+  walk_step: 1.0e-3            # bound on the continuation step between blocks
+  decimals: 7
+
+  eigs:
+    # a shift on the essential-spectrum line reaches both structural eigenvalues and keeps
+    # the window nearly self-dual under nu -> -gamma - nu, which is what makes
+    # pairing_max_err meaningful
+    shift: -0.045
+    k: 40
+    tol: 1.0e-11
+    imtol: 1.0e-7
+
+  # block name -> velocity.  Visited in this order, warm-started from the previous one.
+  blocks:
+    c089: 0.89
+    c08995: 0.8995
+
+  csv_template: "data/06_spectrum_{block}.csv"
+
+quick:
+  grid: {L: 100.0, N: 1024}
+  run:
+    approach: {start: 0.885, stop: 0.890, step: 5.0e-3}
+    walk_step: 5.0e-3
+    eigs: {k: 20, tol: 1.0e-8}
+    csv_template: "data/06_spectrum_{block}_quick.csv"

@@ -1,0 +1,10 @@
+    c089: c=0.89 min|nu|=7.254e-09 nu(-gamma)=-0.100000007 pair=8.11e-15 n_real_nontrivial=0 []
+    c08995: c=0.8995 min|nu|=6.167e-08 nu(-gamma)=-0.099999938 pair=1.76e-02 n_real_nontrivial=1 [0.017591399] [worst-paired nu=+0.017591, its partner -0.117591 lies outside the window of radius 0.0721 -- not a failure of R2]
+
+pencil spectrum  (L = 200, N = 2048, shift = -0.045, k = 40)
+ block       c    min|nu|  nu near -gamma  pairing err  n real        nu2  |rho| circle  max|rho|
+------  ------  ---------  --------------  -----------  ------  ---------  ------------  --------
+  c089  0.8900  7.254e-09    -0.100000007     8.11e-15       0         --      0.945369  1.000000
+c08995  0.8995  6.167e-08    -0.099999938     1.76e-02       1  +0.017591      0.945930  1.019749
+
+wrote data/06_spectrum.json  (18.0 s, quick=False)

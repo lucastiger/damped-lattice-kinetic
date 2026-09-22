@@ -17,6 +17,7 @@ import pytest
 from dlkin import (
     Grid,
     LatticeModel,
+    classify_eigs,
     branch_scalars,
     init_branch,
     kappa_scalars,
@@ -185,3 +186,37 @@ def test_pencil_eigs_matches_reference(reference, scalars) -> None:
     ours = pencil_eigs(scalars.M0, scalars.M1, shift=-0.045, k=20)
     theirs = spectral.pencil_eigs(scalars.M0, scalars.M1, shift=-0.045, k=20)
     np.testing.assert_array_equal(np.sort_complex(ours), np.sort_complex(theirs))
+
+
+def test_classify_eigs_separates_the_structural_eigenvalues() -> None:
+    """nu = 0 and nu = -gamma are found; pairing measures closure under nu -> -gamma - nu."""
+    gamma = 0.1
+    nus = np.array([1e-9, -0.1 + 1e-10j, 0.0042, -0.1042, -0.05 + 0.3j, -0.05 - 0.3j])
+    info = classify_eigs(nus, gamma)
+    assert info.nu_zero_abs == pytest.approx(1e-9)
+    assert info.nu_minus_gamma.real == pytest.approx(-0.1)
+    assert info.real_nontrivial == [0.0042, -0.1042]
+    assert info.n_real_nontrivial == 2
+    # this set is closed under the involution to ~1e-9
+    assert info.pairing_max_err < 1e-8
+
+
+def test_classify_eigs_reports_an_unpaired_window() -> None:
+    """An eigenvalue whose partner fell outside the computed window shows up as the error."""
+    gamma = 0.1
+    info = classify_eigs(np.array([0.0, -0.1, 0.02]), gamma)
+    # the partner of 0.02 is -0.12, which is not in the set
+    assert info.pairing_max_err == pytest.approx(0.02)
+
+
+def test_classify_eigs_multipliers() -> None:
+    """rho = exp(nu/c); nu = 0 is the neutral multiplier and nu = -gamma its partner."""
+    info = classify_eigs(np.array([0.0, -0.1]), 0.1)
+    rho = info.rho(0.89)
+    assert rho[0] == pytest.approx(1.0)
+    assert rho[0] * rho[1] == pytest.approx(np.exp(-0.1 / 0.89))
+
+
+def test_classify_eigs_needs_something_to_classify() -> None:
+    with pytest.raises(ValueError, match="at least one eigenvalue"):
+        classify_eigs([], 0.1)

@@ -1,0 +1,51 @@
+
+(a) M^T J M = e^{-gamma T} J on a resampled symmetric K(t)
+  quantity        value
+----------  -----------
+         n            8
+     gamma         0.37
+         T          0.9
+        dt       0.0001
+     steps         9000
+integrator         expm
+    relerr  1.92069e-14
+    expm_n4_dt0.001: relerr=4.663e-15
+    expm_n4_dt0.0001: relerr=1.776e-14
+    expm_n8_dt0.001: relerr=4.552e-15
+    expm_n8_dt0.0001: relerr=1.921e-14
+    expm_n16_dt0.001: relerr=1.155e-14
+    expm_n16_dt0.0001: relerr=2.731e-14
+    rk4_n4_dt0.001: relerr=2.642e-14
+    rk4_n4_dt0.0001: relerr=8.660e-15
+    rk4_n8_dt0.001: relerr=4.741e-14
+    rk4_n8_dt0.0001: relerr=5.440e-15
+    rk4_n16_dt0.001: relerr=8.682e-14
+    rk4_n16_dt0.0001: relerr=7.216e-15
+
+(a') the same identity across settings
+integrator   n     dt  steps     relerr
+----------  --  -----  -----  ---------
+      expm   4  1e-03    900  4.663e-15
+      expm   4  1e-04   9000  1.776e-14
+      expm   8  1e-03    900  4.552e-15
+      expm   8  1e-04   9000  1.921e-14
+      expm  16  1e-03    900  1.155e-14
+      expm  16  1e-04   9000  2.731e-14
+       rk4   4  1e-03    900  2.642e-14
+       rk4   4  1e-04   9000  8.660e-15
+       rk4   8  1e-03    900  4.741e-14
+       rk4   8  1e-04   9000  5.440e-15
+       rk4  16  1e-03    900  8.682e-14
+       rk4  16  1e-04   9000  7.216e-15
+    c089: ok: conformal relation, both structural multipliers and every localized pencil mode reproduced by direct time integration
+    c08995: ok: conformal relation, both structural multipliers and every localized pencil mode reproduced by direct time integration
+
+(b) monodromy of the linearized FK lattice, by direct RK4 time integration
+  case       c  cs relerr  TW resid  ring seam   |rho-1|  |rho-e^-g/c|  pencil match  max|rho|
+------  ------  ---------  --------  ---------  --------  ------------  ------------  --------
+  c089  0.8900   4.50e-14  5.11e-05   4.16e-05  8.01e-10      7.16e-10      8.01e-10  1.000000
+c08995  0.8995   4.29e-14  5.73e-05   3.60e-05  1.45e-08      1.30e-08      5.21e-08  1.019749
+
+    direct_monodromy/status: ok: c089, c08995 all reproduced by direct time integration
+
+wrote data/07_conformal.json  (36.3 s, quick=False)

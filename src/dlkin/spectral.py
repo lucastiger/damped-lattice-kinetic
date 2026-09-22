@@ -61,6 +61,8 @@ __all__ = [
     "pencil_eigs",
     "real_nontrivial",
     "positive_real_union",
+    "EigClassification",
+    "classify_eigs",
 ]
 
 #: The two admissible normalizations of ``phat`` (see the module docstring).
@@ -430,3 +432,64 @@ def positive_real_union(
         nus = pencil_eigs(M0, M1, s, k=k, tol=tol)
         found += [x for x in real_nontrivial(nus, gamma, imtol=imtol) if x > 0]
     return sorted({round(float(x), decimals) for x in found}, reverse=True)
+
+
+@dataclass(frozen=True)
+class EigClassification:
+    """What a computed piece of pencil spectrum contains, sorted into its structural parts.
+
+    ``nu = 0`` and ``nu = -gamma`` are there by construction -- the first because
+    ``phi' in ker M0``, the second because R2 forces the spectrum to be invariant under
+    ``nu -> -gamma - nu`` -- so finding them, and finding the whole set closed under that
+    involution, is a check on the computation rather than a result.  What is a result is
+    how many *other* real eigenvalues there are: none means no real multiplier has left the
+    unit circle.
+    """
+
+    nus: np.ndarray = field(repr=False)
+    gamma: float
+    nu_zero_abs: float
+    nu_minus_gamma: complex
+    pairing_max_err: float
+    real_nontrivial: List[float]
+
+    @property
+    def n_real_nontrivial(self) -> int:
+        """How many real eigenvalues survive after the two structural ones are removed."""
+        return len(self.real_nontrivial)
+
+    def rho(self, c: float) -> np.ndarray:
+        """Floquet multipliers ``rho = exp(nu / c)`` of the monodromy."""
+        return np.exp(np.asarray(self.nus) / float(c))
+
+
+def classify_eigs(
+    nus: Iterable[complex],
+    gamma: float,
+    imtol: float = 1e-7,
+    zero_tol: float = 1e-6,
+    decimals: int = 9,
+) -> EigClassification:
+    """Sort a computed piece of pencil spectrum into its structural and non-trivial parts.
+
+    ``pairing_max_err`` is the quantitative form of R2: for every computed ``nu`` it asks
+    how close ``-gamma - nu`` comes to some other computed eigenvalue, and reports the
+    worst case.  A shift-invert window is not closed under the involution at its edge --
+    the partner of an eigenvalue near the rim can lie outside the ``k`` that converged --
+    so this is a statement about the window as computed, and it is only small when the
+    window happens to be (nearly) self-dual, which the ``-gamma/2``-centred shift makes it.
+    """
+    nus = np.asarray(list(nus))
+    if nus.size == 0:
+        raise ValueError("classify_eigs needs at least one eigenvalue.")
+    partner_err = np.abs(nus[:, None] + gamma + nus[None, :]).min(axis=1)
+    return EigClassification(
+        nus=nus,
+        gamma=float(gamma),
+        nu_zero_abs=float(np.min(np.abs(nus))),
+        nu_minus_gamma=complex(nus[int(np.argmin(np.abs(nus + gamma)))]),
+        pairing_max_err=float(np.max(partner_err)),
+        real_nontrivial=real_nontrivial(
+            nus, gamma, imtol=imtol, zero_tol=zero_tol, decimals=decimals
+        ),
+    )
