@@ -1,0 +1,87 @@
+# The fold at c_max: pseudo-arclength continuation through the turning point in c, with
+# the biorthogonal scalars and the unstable eigenvalue tracked across it.
+#
+# NOTE the normalization.  At the fold <phat,1>_h passes through zero, so it cannot be
+# normalised to -2 pi; script 04 uses ||phat||_2 = 1 with <phat, phi'>_h > 0 throughout.
+# kappa and <phat,1> therefore differ from scripts 01-03 by a common factor -- their
+# ratio, and the arclength invariant below, do not.
+#
+# Production settings; `--quick` deep-merges the `quick:` section over everything above.
+
+grid:
+  L: 200.0
+  N: 2048
+
+model:
+  mu: 1.0
+  gamma: 0.1
+  mu2: 0.0
+  couplings: [[1, 1.0]]
+  template_width: 2.0
+
+run:
+  phat: {normalization: unit, seed: 0, iters: 70, shift: 1.0e-14}
+  newton: {tol: 1.0e-12, maxit: 40}
+  corrector: {tol: 1.0e-10, maxit: 12}
+
+  # (a)-(b) The fold run.
+  fold:
+    L: 200.0
+    N: 2048
+    c0: 0.88
+    approach: [0.885, 0.890, 0.895, 0.8990, 0.8995, 0.8998]
+    c_start: 0.8998
+    ds: 0.03
+    nsteps: 120
+    # stop once the branch has turned and come back below where it started
+    stop: {after_step: 60, below_c: 0.8998}
+    sample:
+      every: 12            # sample the spectrum every 12th step ...
+      cdot_window: 3.0e-4  # ... and wherever the branch is nearly vertical in c
+      shifts: [0.010, 0.035]
+      k: 16
+      tol: 1.0e-10
+      imtol: 1.0e-7
+      decimals: 8
+
+  # (c) A second, independent run whose only purpose is the arclength invariant
+  #     cdot * kappa + mu * sigmadot * <phat,1> = 0  (R5).
+  #
+  #     `window` is a range of STEP INDICES, so where it lands on the branch depends on
+  #     where the arclength walk started -- and the invariant varies by two orders of
+  #     magnitude along the branch.  Both starting procedures are therefore run and
+  #     reported; see the `invariant` part of the script docstring.  `reference` is the
+  #     one handoff/reference/drivers_session.py:fold_invariant() performs (its
+  #     arange(0.885, 0.8971, 0.005) stops at 0.895, and the arclength corrector converges
+  #     the c = 0.897 start itself); `converged_start` marches all the way to 0.897 first.
+  invariant:
+    L: 200.0
+    N: 2048
+    c0: 0.88
+    c_start: 0.897
+    ds: 0.02
+    nsteps: 150
+    window: [105, 150]     # half-open [lo, hi): the step indices the maximum is over
+    c_stop: 0.870          # abandon the run if it walks this far down the second branch
+    primary: reference      # which variant `invariant_max` is taken from
+    variants:
+      reference:       {approach: [0.885, 0.890, 0.895]}
+      converged_start: {approach: [0.885, 0.890, 0.895, 0.897]}
+
+quick:
+  # The Arnoldi solves dominate a quick run, so it samples the spectrum at far fewer
+  # steps (a tighter cdot_window still catches the two that bracket the fold, which is
+  # what the interpolation needs) and with a looser ARPACK tolerance.
+  grid: {L: 100.0, N: 1024}
+  run:
+    fold:
+      L: 100.0
+      N: 1024
+      nsteps: 30
+      stop: {after_step: 26}
+      sample: {every: 20, cdot_window: 1.0e-4, k: 10, tol: 1.0e-6}
+    invariant:
+      L: 100.0
+      N: 1024
+      nsteps: 20
+      window: [12, 20]

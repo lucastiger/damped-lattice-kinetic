@@ -5,7 +5,7 @@ Everything Claude Code needs to build the companion repository for the research 
 | file | what it is |
 |---|---|
 | `note.tex` | the manuscript. Compiles standalone (pdflatex, 18 pp). Figures are drawn as placeholder boxes until `figures/*.pdf` exist. |
-| `claims.yaml` | 124 machine-checkable claims: every number quoted in the note, with the JSON key path the experiment scripts must emit, and a tolerance. |
+| `claims.yaml` | 125 machine-checkable claims: every number quoted in the note, with the JSON key path the experiment scripts must emit, and a tolerance. |
 | `SCIENCE_BRIEF.md` | self-contained statement of the model, the identities, the conventions and the full numerical recipe. Read this before writing any code. |
 | `reference/fk.py` | Fourier-spectral advance--delay solver for the traveling wave (verbatim from the investigation). |
 | `reference/spectral.py` | null vectors, exact `sigma'(c)`, `kappa`, `m`, power balance, shift-invert Arnoldi on the quadratic pencil. |

@@ -1,0 +1,93 @@
+# Threshold table: the leading-order reduction nu2 ~ -kappa/m against the eigenvalue the
+# quadratic pencil actually has, across c_hat1 where sigma'(c) -- and with it kappa, and
+# with it nu2 -- changes sign.
+#
+# Production settings; `--quick` deep-merges the `quick:` section over everything above.
+
+grid:
+  L: 200.0
+  N: 4096
+
+model:
+  mu: 1.0
+  gamma: 0.1
+  mu2: 0.0
+  couplings: [[1, 1.0]]
+  template_width: 2.0
+
+run:
+  phat: {normalization: minus2pi, seed: 0, iters: 80, shift: 1.0e-14}
+  newton: {tol: 1.0e-12, maxit: 40}
+
+  # (a) The table itself.  The velocities are visited in the listed order, warm-starting
+  #     from the previous one, after marching up from c0 through `approach`.
+  rows:
+    L: 200.0
+    N: 4096
+    c0: 0.88
+    approach: {start: 0.881, stop: 0.895, step: 1.0e-3}
+    c_values: [0.89500, 0.89800, 0.89880, 0.89892, 0.89900,
+               0.89920, 0.89950, 0.89980, 0.90000]
+    key_format: "%.5f"
+    eigs:
+      # shift-invert Arnoldi on Q(nu) = nu^2 + nu M1 + M0, one shift per row, placed
+      # just above the predicted eigenvalue (and never below 0, where the translation
+      # mode sits).  `match_window` is the half-width of the search window around
+      # nu2_pred; `duality_tol` is how exactly two candidates must satisfy
+      # nu + nu' = -gamma to count as a conformal-dual pair (R2) rather than two
+      # independent eigenvalues, and `line_factor` how many times the measured spread
+      # of the complex part of the same Arnoldi window a candidate may sit from
+      # Re nu = -gamma/2 and still count as essential spectrum.  See `_select_nu2`.
+      shift_offset: 0.004
+      k: 24
+      tol: 1.0e-10
+      imtol: 1.0e-7
+      match_window: 0.05
+      duality_tol: 1.0e-6
+      line_factor: 2.0
+
+  # (b) Linear interpolation of the two zeros between the bracketing rows.
+  zeros:
+    bracket: [0.89892, 0.89900]
+
+  # (c) How well -kappa/m predicts the true eigenvalue as the threshold is approached.
+  reduction_error:
+    c_values: [0.89800, 0.89880]
+
+  # (d) The sign of m along the branch.  m > 0 is what makes nu2 ~ -kappa/m share the
+  #     sign of -kappa, i.e. of -sigma'.
+  m_scan:
+    L: 200.0
+    N: 2048
+    c0: 0.88
+    step: 0.005
+    c_min: 0.20
+    c_max: 0.895
+    decimals: 7
+    key_format: "%.4f"
+    targets: [0.20, 0.25, 0.30, 0.35, 0.40, 0.45, 0.50, 0.55, 0.60, 0.65, 0.70, 0.75, 0.80,
+              0.850, 0.855, 0.860, 0.865, 0.870, 0.875, 0.880, 0.885, 0.890, 0.895]
+
+  # (e) Where m changes sign -- the edge of validity of the reduction.  Continues from
+  #     the last row of (a).
+  m_sign:
+    c_values: [0.8999, 0.9000]
+
+quick:
+  grid: {L: 100.0, N: 1024}
+  run:
+    rows:
+      L: 100.0
+      N: 1024
+      approach: {start: 0.885, stop: 0.895, step: 5.0e-3}
+      c_values: [0.89500, 0.89800, 0.89880, 0.89892, 0.89900, 0.89920, 0.89950]
+      eigs: {k: 16}
+    reduction_error: {c_values: [0.89800, 0.89880]}
+    m_scan:
+      L: 100.0
+      N: 512
+      step: 0.02
+      c_min: 0.40
+      c_max: 0.88
+      targets: [0.40, 0.50, 0.60, 0.70, 0.80, 0.88]
+    m_sign: {c_values: [0.8992, 0.8995]}

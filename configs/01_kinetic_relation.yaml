@@ -1,0 +1,73 @@
+# Kinetic relation sigma(c) of the damped, dc-driven Frenkel-Kontorova lattice.
+#
+# Production settings.  `scripts/01_kinetic_relation.py --quick` deep-merges the
+# `quick:` section at the bottom over everything above it; nothing here is duplicated
+# in the script body.
+#
+# Resolution follows SCIENCE_BRIEF.md Sec. 4: N = 2048 (h ~ 0.195) for the branch sweep,
+# N = 4096 (h ~ 0.098) where the exact sigma'(c) has to resolve a zero.
+
+grid:
+  L: 200.0
+  N: 2048
+
+model:
+  mu: 1.0
+  gamma: 0.1
+  mu2: 0.0
+  couplings: [[1, 1.0]]
+  template_width: 2.0
+
+run:
+  # <phat,1>_h = -2 pi throughout script 01: kappa is quoted against 2 pi mu sigma'.
+  phat: {normalization: minus2pi, seed: 0, iters: 80, shift: 1.0e-14}
+  newton: {tol: 1.0e-12, maxit: 40}
+
+  # (a) Far-field boundary check on the FIRST stage of init_branch alone: the
+  #     physical-width template w0 = sqrt((1-c0^2)/mu) solved from psi = 0.
+  bc_check:
+    L: 200.0
+    N: 2048
+    c0: 0.88
+    sigma_guess: 0.6
+
+  # (b) The kinetic curve itself, by natural continuation in c from c0 both ways.
+  curve:
+    L: 200.0
+    N: 2048
+    c0: 0.88
+    c_min: 0.20
+    c_max: 0.8995
+    step: 1.0e-3
+    refine_from: 0.8980      # above this the step drops to refine_step
+    refine_step: 1.0e-4
+    decimals: 7
+    csv: data/01_kinetic_curve.csv
+
+  # (c) c_hat1: the zero of the EXACT sigma'(c), bracketed then refined by secant.
+  critical:
+    L: 200.0
+    N: 4096
+    c0: 0.88
+    approach: {start: 0.881, stop: 0.890, step: 1.0e-3}
+    probe: [0.8988, 0.89892, 0.89900]   # solved in this order; the bracket ends are probes
+    bracket: [0.89892, 0.89900]
+    secant: {maxit: 6, tol: 1.0e-10}
+
+quick:
+  grid: {L: 100.0, N: 1024}
+  run:
+    bc_check: {L: 100.0, N: 1024}
+    curve:
+      L: 100.0
+      N: 1024
+      c_min: 0.80
+      c_max: 0.8950
+      step: 5.0e-3
+      refine_from: 0.8900
+      refine_step: 1.0e-3
+      csv: data/01_kinetic_curve_quick.csv
+    critical:
+      L: 100.0
+      N: 1024
+      approach: {start: 0.885, stop: 0.890, step: 5.0e-3}

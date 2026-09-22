@@ -62,12 +62,30 @@ claims:
    kind: value, value: 2.498175, abs_tol: 2.0e-6, verified: rerun}
 - {id: ID-resphat, where: "Obs. 9.5", file: data/02_identity.json, key: c089/res_phat_rel,
    kind: upper, bound: 1.0e-12, verified: rerun}
+- {id: ID-sweep-abs, where: "Obs. 9.2", file: data/02_identity.json, key: sweep/max_abs_err,
+   kind: upper, bound: 1.0e-9,
+   note: "|kappa + mu sigma' <phat,1>| over c in [0.5,0.90015] at N=4096. This is the
+          measure that is uniform along the branch; test it, and read max_relerr against it.
+          Floor set by the accuracy of the computed left null vector: inverse iteration
+          leaves |M0^T phat|/|phat| ~ 1.2e-13, and dividing by the second singular value of
+          M0 (9.89e-2) puts the error in phat's direction at ~1.3e-12, which paired against
+          M1 phi' is of order 1e-11."}
 - {id: ID-sweep, where: "Obs. 9.2", file: data/02_identity.json, key: sweep/max_relerr,
-   kind: upper, bound: 1.0e-12,
-   note: "max over c in [0.5,0.90015] at N=4096"}
+   kind: upper, bound: 5.0e-10,
+   note: "max over c in [0.5,0.90015] at N=4096. NOT 1e-12: the relative error peaks at
+          1.8e-10 at c=0.89892, which is 1e-5 from c_hat1, where both sides of the identity
+          have collapsed to 0.0747 -- 0.6% of their value at c=0.89 -- while the absolute
+          disagreement there (1.3e-11, see ID-sweep-abs) is in line with the rest of the
+          sweep. Away from c_hat1 the relative error is <= 7.3e-12, and <= 1e-13 up to
+          c=0.89. The peak does not move with the inverse-iteration count, the seed, the
+          Newton tolerance or the continuation path."}
 - {id: ID-fd, where: "Sec. 9.2 text", file: data/02_identity.json, key: fd_discrepancy,
    kind: order, value: 1.6e-4, decades: 0.5,
-   note: "centred difference for sigma' with step 1e-3"}
+   note: "centred difference for sigma' over two points 1e-3 APART, i.e.
+          (sigma(c+5e-4) - sigma(c-5e-4))/1e-3, at c=0.89. The wider
+          (sigma(c+1e-3) - sigma(c-1e-3))/2e-3 is four times worse, 6.5e-4, the truncation
+          error being quadratic in the spacing; it is emitted as
+          fd_detail/relative_discrepancy_double_spacing."}
 
 - {id: CV-1024, file: data/02_identity.json, key: convergence/L200_N1024/relerr,
    kind: order, value: 3.05e-4, decades: 1.0, where: "Table 3"}
@@ -97,7 +115,12 @@ claims:
 - {id: TH-0895-m,   file: data/03_threshold.json, key: rows/0.89500/m,           kind: value, value:  209.0,     rel_tol: 2.0e-3, where: "Table 4"}
 - {id: TH-0895-np,  file: data/03_threshold.json, key: rows/0.89500/nu2_pred,    kind: value, value: -0.046091,  abs_tol: 2.0e-6, where: "Table 4"}
 - {id: TH-0895-nu,  file: data/03_threshold.json, key: rows/0.89500/nu2,         kind: "null", where: "Table 4",
-   note: "predicted value lies 0.004 from Re nu = -gamma/2; no isolated real eigenvalue resolved"}
+   note: "predicted value lies 0.004 from Re nu = -gamma/2; no isolated real eigenvalue
+          resolved. A window centred on nu2_pred alone is not enough to see this: Arnoldi
+          returns -0.0457455 and -0.0542545, which sum to -gamma to the last digit resolved,
+          i.e. a conformal-dual pair (R2) symmetric about the essential-spectrum line, and
+          both fall inside the window. They are discarded as the discretized continuum;
+          rows/0.89500/essential_pairs records them."}
 - {id: TH-0898-sp,  file: data/03_threshold.json, key: rows/0.89800/sigma_prime, kind: value, value:  0.7418062, abs_tol: 2.0e-7, where: "Table 4"}
 - {id: TH-0898-k,   file: data/03_threshold.json, key: rows/0.89800/kappa,       kind: value, value:  4.6609061, abs_tol: 2.0e-6, where: "Table 4"}
 - {id: TH-0898-m,   file: data/03_threshold.json, key: rows/0.89800/m,           kind: value, value:  236.5,     rel_tol: 2.0e-3, where: "Table 4"}
@@ -124,7 +147,10 @@ claims:
 - {id: TH-08992-nu, file: data/03_threshold.json, key: rows/0.89920/nu2,         kind: value, value:  0.007740,  abs_tol: 3.0e-6, where: "Table 4"}
 - {id: TH-08995-nu, file: data/03_threshold.json, key: rows/0.89950/nu2,         kind: value, value:  0.017591,  abs_tol: 3.0e-6, where: "Table 4"}
 - {id: TH-08998-nu, file: data/03_threshold.json, key: rows/0.89980/nu2,         kind: value, value:  0.029743,  abs_tol: 3.0e-6, where: "Table 4"}
-- {id: TH-0900-nu,  file: data/03_threshold.json, key: rows/0.90000/nu2,         kind: value, value:  0.040624,  abs_tol: 3.0e-6, where: "Table 4"}
+- {id: TH-0900-nu,  file: data/03_threshold.json, key: rows/0.90000/nu2,         kind: value, value:  0.040624,  abs_tol: 3.0e-6, where: "Table 4",
+   note: "m < 0 here, past its pole (see TH-msign), so nu2_pred = -kappa/m reads -0.3018
+          and cannot be used to locate the eigenvalue; nu2 is the unique isolated real
+          eigenvalue near the shift. rows/0.90000/nu2_selection records which rule fired."}
 - {id: TH-0900-m,   file: data/03_threshold.json, key: rows/0.90000/m,           kind: value, value: -101.4,     rel_tol: 5.0e-3, where: "Table 4"}
 - {id: TH-zero-sp,  file: data/03_threshold.json, key: zeros/sigma_prime_interp, kind: value, value: 0.8989293, abs_tol: 3.0e-7, where: "Obs. 9.3(a)"}
 - {id: TH-zero-nu,  file: data/03_threshold.json, key: zeros/nu2_interp,         kind: value, value: 0.8989296, abs_tol: 5.0e-7, where: "Obs. 9.3(a)"}
@@ -144,7 +170,15 @@ claims:
 - {id: FD-nu,         file: data/04_fold.json, key: nu_at_fold, kind: value, value: 0.0653, abs_tol: 0.002, where: "Obs. 9.4(c)"}
 - {id: FD-count,      file: data/04_fold.json, key: n_unstable_exactly_one_all_steps, kind: bool, value: true, where: "Obs. 9.4(c)"}
 - {id: FD-invariant,  file: data/04_fold.json, key: invariant_max, kind: upper, bound: 2.0e-8, where: "Obs. 9.4(d)",
-   note: "ds=0.02 run from c=0.897; max over steps 105-149 of |cdot*kappa + mu*sigmadot*<phat,1>|"}
+   note: "ds=0.02 run from c=0.897; max over steps 105-149 of |cdot*kappa + mu*sigmadot*<phat,1>|.
+          The window is a range of STEP INDICES and the invariant is not uniform along the
+          branch (it tracks |M0^T phat|/|phat| step for step while the corrector residual
+          stays flat at 4e-11), so which stretch the window covers depends on where the
+          arclength walk started. This bound is for the reference procedure -- natural
+          continuation to 0.895, then the arclength corrector converges the c=0.897 start --
+          which puts the window over c in [0.899838, 0.900196]. data/04_fold.json reports
+          both that variant and one started from a converged c=0.897, under
+          invariant_runs/."}
 - {id: FD-row23-c,    file: data/04_fold.json, key: rows/23/c,        kind: value, value: 0.900196, abs_tol: 2.0e-6, where: "Table 5", exact_replication: true}
 - {id: FD-row23-cdot, file: data/04_fold.json, key: rows/23/cdot,     kind: value, value: 1.38e-5,  abs_tol: 2.0e-6, where: "Table 5", exact_replication: true}
 - {id: FD-row23-one,  file: data/04_fold.json, key: rows/23/phat_one, kind: value, value: -0.005925, abs_tol: 2.0e-4, where: "Table 5", exact_replication: true}

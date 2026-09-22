@@ -8,3 +8,9 @@ dist/
 
 # NOTE: data/ and figures/ are deliberately NOT ignored -- the generated
 # results and plots are part of the reproducibility record.
+#
+# The exception is --quick output.  A quick run is at reduced L/N and does not
+# reproduce claims.yaml; it writes to data/NN_name_quick.json (and the matching
+# CSV) precisely so that it cannot be mistaken for, or overwrite, the record.
+data/*_quick.json
+data/*_quick.csv

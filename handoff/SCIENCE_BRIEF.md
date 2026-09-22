@@ -153,12 +153,18 @@ step `1e-3` (refined to `1e-4` near `c_hat1`). Through the turning point: pseudo
 `(psi, sigma, c)`; `dR/dc = -M1 phi'`; tangent from the bordered system with the previous
 tangent as the last row; corrector tolerance `1e-10`; `ds = 0.02` or `0.03`.
 
-**Exact `sigma'(c)`** (never finite differences — a centred difference with step `1e-3` has a
-grid-independent error of `1.6e-4` near the curvature maximum): solve the bordered system
+**Exact `sigma'(c)`** (never finite differences): solve the bordered system
 
 ```
 [[M0, -mu*1],[e_{j0}^T, 0]] [d_c psi ; sigma'] = [M1 phi' ; 0]
 ```
+
+Why not a difference: at `c = 0.89` a centred difference over two points `1e-3` apart,
+`(sigma(c + 5e-4) - sigma(c - 5e-4)) / 1e-3`, is wrong by `1.6e-4` in relative terms, and the
+wider `(sigma(c + 1e-3) - sigma(c - 1e-3)) / 2e-3` by `6.5e-4` — four times worse, the
+truncation error being quadratic in the spacing. The error is set by `sigma'''` near the
+curvature maximum and does **not** shrink with `N` or `L`, so either choice would put a floor
+ten orders of magnitude above the `<= 1e-12` the identity reaches at `N = 4096`.
 
 **`phi'`** is `A' + (spectral derivative of psi)`.
 
@@ -183,7 +189,22 @@ x1 = -Q(s)^{-1} ( b2 + (M1 + s I) b1 ),     x2 = b1 + s x1
 
 `k = 14..24` eigenvalues, `tol = 1e-10`, `maxiter = 8000`, **fixed starting vector `v0`** for
 determinism. Recover `nu = s + 1/val`. Real if `|Im nu| < 1e-7`; discard `|nu| < 1e-6` (the
-translation mode) and `|nu + gamma| < 1e-6` (its conformal partner). Shifts used:
+translation mode) and `|nu + gamma| < 1e-6` (its conformal partner).
+
+That is not sufficient near the threshold. On a finite domain the essential spectrum
+`Re nu = -gamma/2` becomes O(N) discrete eigenvalues scattered a little off that line, and
+some are returned with `|Im nu| < 1e-7` — indistinguishable, one at a time, from an isolated
+real mode. R2 identifies them: the spectrum is invariant under `nu -> -gamma - nu`, so **two**
+real candidates with `nu + nu' = -gamma` are a dual pair symmetric about the line, whereas an
+isolated mode's partner is far away. Discard a candidate that is both half of such a pair and
+within twice the spread of the same window's complex eigenvalues about the line (a threshold
+measured from the computation, not chosen). At `c = 0.895`, `N = 4096` this removes
+`-0.0457455` and `-0.0542545`, which sum to `-gamma` exactly, and correctly leaves no isolated
+eigenvalue; at `c = 0.8988` it removes `-0.048107`/`-0.051893` while keeping `-0.003441`.
+Separately, `nu2_pred = -kappa/m` is only a usable locator while `m > 0`: past its pole
+(between `c = 0.8999` and `c = 0.9000`) it reads `-0.3018` while the eigenvalue is `+0.0406`.
+
+Shifts used:
 `max(nu2_pred, 0) + 0.004` for the threshold table; `0.010` and `0.035` for the fold;
 `-0.045` for the full spectrum snapshot. Multipliers: `rho = exp(nu/c)`.
 
@@ -202,11 +223,24 @@ See `claims.yaml` for the full list with tolerances. The critical ones:
 | `c_max` (turning point) | 0.900196 | 0.9002 |
 | `sigma(0.89)`, `sigma'(0.89)` | 0.6373006910, 1.9251320610 | |
 | `kappa(0.89)` at `<phat,1> = -2 pi` | 12.0959614798 | `= 2 pi mu sigma'` |
-| identity relative error, `N = 4096` | `<= 1e-12` | `3.05e-4` at `N=1024`, `1.26e-8` at `N=2048` |
+| identity relative error at `c = 0.89`, `N = 4096` | `<= 1e-12` | `3.05e-4` at `N=1024`, `1.26e-8` at `N=2048` |
+| identity relative error, worst over `c in [0.5, 0.90015]` | `1.8e-10` at `c = 0.89892` | see note below |
+| identity absolute error, worst over the same sweep | `6.2e-10` at `c = 0.90015` | |
 | power balance relative error | `4e-14` | |
 | `nu2(0.899)` (Arnoldi) | +0.001931 | unstable, `rho = 1.00215` |
 | `nu2(0.8988)` | -0.003441 | stable |
 | smallest singular values of `M0`, `N=2048` | 2.66e-9, 9.89e-2, 1.91e-1 | kernel is simple |
+
+Note on the sweep. Read the relative error with the absolute one beside it. At `c = 0.89892`,
+`1e-5` from `c_hat1`, both sides of the identity have collapsed to `0.0747` — 0.6% of their
+value at `c = 0.89` — so the relative error peaks at `1.8e-10` while the absolute
+disagreement there, `1.3e-11`, is in line with the rest of the sweep and smaller than the
+`3.3e-11` at `c = 0.8999`. The floor on the absolute disagreement is the accuracy of the
+computed left null vector: inverse iteration leaves `|M0^T phat| / |phat| ~ 1.2e-13`, and
+dividing by the second singular value of `M0` (`9.89e-2`) puts the error in the direction of
+`phat` at `~1.3e-12`, which paired against `M1 phi'` is of order `1e-11`. It does not move
+with the iteration count (70, 160, 400), the seed, the Newton tolerance or the continuation
+path. Away from `c_hat1` the relative error is `<= 7.3e-12`, and `<= 1e-13` up to `c = 0.89`.
 
 ## 6. What is proved and what is not — do not blur this in code comments or docs
 
