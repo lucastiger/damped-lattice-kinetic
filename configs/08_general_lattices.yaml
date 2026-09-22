@@ -1,0 +1,61 @@
+# Scope test of Proposition 7.1: kappa = -f'(c) <phat,1> for the generalized lattice
+#
+#     u_n'' + gamma u_n' = sum_j C_j (u_{n+j} - 2u_n + u_{n-j}) + f - V'(u_n),
+#     V'(u) = mu sin u + mu2 sin 2u
+#
+# Every row starts from a flat psi = 0 with f = 0.5 and walks the same four velocities --
+# no init_branch, no template transfer.  That the identity holds for all of them is the
+# point; that one naive start does not converge is also recorded rather than rescued.
+#
+# Production settings; `--quick` deep-merges the `quick:` section over everything above.
+
+grid:
+  L: 200.0
+  N: 2048
+
+model:
+  mu: 1.0
+  gamma: 0.1
+  mu2: 0.0
+  couplings: [[1, 1.0]]
+  template_width: 2.0
+
+run:
+  # gen.py's Newton tolerance, not fk.py's 1e-12; the rows are quoted against it
+  newton: {tol: 1.0e-11, maxit: 40}
+  # <phat,1> is not normalized here -- it is one of the two sides being compared
+  phat: {normalization: unit, seed: 0, iters: 80, shift: 1.0e-14}
+
+  L: 200.0
+  N: 2048
+  c_values: [0.55, 0.65, 0.75, 0.82]
+  c: 0.82
+  psi0: 0.0
+  drive0: 0.5
+
+  rows:
+    fk:     {mu: 1.0, mu2:  0.0, couplings: [[1, 1.0]],            gamma: 0.1}
+    mu2m05: {mu: 1.0, mu2: -0.5, couplings: [[1, 1.0]],            gamma: 0.1}
+    nnn:    {mu: 1.0, mu2:  0.0, couplings: [[1, 1.0], [2, 0.25]], gamma: 0.1}
+    mu2nnn: {mu: 1.0, mu2:  0.3, couplings: [[1, 1.0], [2, 0.20]], gamma: 0.1}
+    soft:   {mu: 0.6, mu2:  0.0, couplings: [[1, 1.0]],            gamma: 0.2}
+
+  # the mu2 = -0.5 row again at twice the resolution: its relerr must fall from ~4e-6 to
+  # below 1e-10, which is what identifies that error as a resolution effect
+  refinement:
+    row: mu2m05
+    N: 4096
+
+  # expected NOT to converge from the flat start; recorded, not rescued
+  expected_failure:
+    mu2p035: {mu: 1.0, mu2: 0.35, couplings: [[1, 1.0]], gamma: 0.1}
+
+quick:
+  # L stays at 200: the mu2 = -0.5 row needs the full domain to converge from a flat start
+  # at all (at L = 100 it diverges regardless of N), and a quick run that silently drops a
+  # row would not be exercising the same code path.  Only the resolution is reduced.
+  grid: {L: 200.0, N: 1024}
+  run:
+    L: 200.0
+    N: 1024
+    refinement: {N: 2048}

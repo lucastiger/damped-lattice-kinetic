@@ -9,7 +9,8 @@ solver (:mod:`dlkin.solver`), and continuation in the velocity (:mod:`dlkin.cont
 
 On top of it sit the biorthogonal / spectral layer (:mod:`dlkin.spectral`) -- ``phat``,
 the exact ``sigma'(c)``, ``kappa``, ``m`` and the eigenvalues of the co-traveling pencil
--- and the result-file writer the experiment scripts emit through (:mod:`dlkin.io`).
+-- the direct time integration of the linearized lattice (:mod:`dlkin.monodromy`), and
+the result-file writer the experiment scripts emit through (:mod:`dlkin.io`).
 """
 
 from __future__ import annotations
@@ -44,10 +45,21 @@ from .grid import (
 )
 from .model import LatticeModel, Template, template_arrays
 from .solver import ConvergenceError, NewtonResult, TravelingWaveSolver, init_branch
+from .monodromy import (
+    LatticeMonodromy,
+    conformal_symplectic_flow_test,
+    conformal_symplectic_residual,
+    interpolate_psi,
+    lattice_monodromy,
+    shift_matrix,
+    symplectic_form,
+)
 from .spectral import (
     PHAT_NORMALIZATIONS,
     BranchScalars,
+    EigClassification,
     KappaScalars,
+    classify_eigs,
     branch_scalars,
     kappa_scalars,
     left_null,
@@ -98,6 +110,16 @@ __all__ = [
     "pencil_eigs",
     "real_nontrivial",
     "positive_real_union",
+    "EigClassification",
+    "classify_eigs",
+    # monodromy
+    "symplectic_form",
+    "shift_matrix",
+    "conformal_symplectic_residual",
+    "conformal_symplectic_flow_test",
+    "interpolate_psi",
+    "LatticeMonodromy",
+    "lattice_monodromy",
     # config
     "load_config",
     "resolve",

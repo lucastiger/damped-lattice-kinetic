@@ -1,0 +1,374 @@
+{
+ "metadata": {
+  "schema": 1,
+  "script": "scripts/07_conformal_symplectic.py",
+  "quick": false,
+  "created": "2026-09-22T00:24:18+00:00",
+  "sections": [
+   "random_K",
+   "sweep",
+   "direct_monodromy"
+  ],
+  "elapsed_sec": 36.319,
+  "config": "configs/07_conformal_symplectic.yaml",
+  "config_sha256_16": "a8c6282c0490e0bd",
+  "versions": {
+   "python": "3.11.15",
+   "numpy": "2.4.6",
+   "scipy": "1.17.1"
+  },
+  "git_commit": "8b14d1c",
+  "config_contents": {
+   "grid": {
+    "L": 200.0,
+    "N": 2048
+   },
+   "model": {
+    "mu": 1.0,
+    "gamma": 0.1,
+    "mu2": 0.0,
+    "couplings": [
+     [
+      1,
+      1.0
+     ]
+    ],
+    "template_width": 2.0
+   },
+   "run": {
+    "newton": {
+     "tol": 1e-12,
+     "maxit": 40
+    },
+    "c0": 0.88,
+    "approach": {
+     "start": 0.881,
+     "stop": 0.89,
+     "step": 0.001
+    },
+    "walk_step": 0.001,
+    "decimals": 7,
+    "random_K": {
+     "n": 8,
+     "gamma": 0.37,
+     "T": 0.9,
+     "dt": 0.0001,
+     "seed": 1,
+     "integrator": "expm"
+    },
+    "sweep": {
+     "gamma": 0.37,
+     "T": 0.9,
+     "seed": 1,
+     "n": [
+      4,
+      8,
+      16
+     ],
+     "dt": [
+      0.001,
+      0.0001
+     ],
+     "integrators": [
+      "expm",
+      "rk4"
+     ]
+    },
+    "direct_monodromy": {
+     "L": 200.0,
+     "N": 2048,
+     "n_sites": 200,
+     "n_steps": 1124,
+     "n_leading": 8,
+     "pencil": {
+      "shift": 0.004,
+      "k": 24,
+      "tol": 1e-10
+     },
+     "cases": {
+      "c089": 0.89,
+      "c08995": 0.8995
+     },
+     "thresholds": {
+      "cs_relerr": 1e-10,
+      "rho_match": 1e-06
+     }
+    }
+   }
+  }
+ },
+ "quick": false,
+ "random_K": {
+  "n": 8,
+  "gamma": 0.37,
+  "T": 0.9,
+  "dt": 0.0001,
+  "n_steps": 9000,
+  "seed": 1,
+  "integrator": "expm",
+  "relerr": 1.9206858326015208e-14
+ },
+ "sweep": {
+  "rows": {
+   "expm_n4_dt0.001": {
+    "n": 4,
+    "gamma": 0.37,
+    "T": 0.9,
+    "dt": 0.001,
+    "n_steps": 900,
+    "seed": 1,
+    "integrator": "expm",
+    "relerr": 4.6629367034256575e-15
+   },
+   "expm_n4_dt0.0001": {
+    "n": 4,
+    "gamma": 0.37,
+    "T": 0.9,
+    "dt": 0.0001,
+    "n_steps": 9000,
+    "seed": 1,
+    "integrator": "expm",
+    "relerr": 1.7763568394002505e-14
+   },
+   "expm_n8_dt0.001": {
+    "n": 8,
+    "gamma": 0.37,
+    "T": 0.9,
+    "dt": 0.001,
+    "n_steps": 900,
+    "seed": 1,
+    "integrator": "expm",
+    "relerr": 4.551914400963142e-15
+   },
+   "expm_n8_dt0.0001": {
+    "n": 8,
+    "gamma": 0.37,
+    "T": 0.9,
+    "dt": 0.0001,
+    "n_steps": 9000,
+    "seed": 1,
+    "integrator": "expm",
+    "relerr": 1.9206858326015208e-14
+   },
+   "expm_n16_dt0.001": {
+    "n": 16,
+    "gamma": 0.37,
+    "T": 0.9,
+    "dt": 0.001,
+    "n_steps": 900,
+    "seed": 1,
+    "integrator": "expm",
+    "relerr": 1.1546319456101628e-14
+   },
+   "expm_n16_dt0.0001": {
+    "n": 16,
+    "gamma": 0.37,
+    "T": 0.9,
+    "dt": 0.0001,
+    "n_steps": 9000,
+    "seed": 1,
+    "integrator": "expm",
+    "relerr": 2.731148640577885e-14
+   },
+   "rk4_n4_dt0.001": {
+    "n": 4,
+    "gamma": 0.37,
+    "T": 0.9,
+    "dt": 0.001,
+    "n_steps": 900,
+    "seed": 1,
+    "integrator": "rk4",
+    "relerr": 2.6423307986078726e-14
+   },
+   "rk4_n4_dt0.0001": {
+    "n": 4,
+    "gamma": 0.37,
+    "T": 0.9,
+    "dt": 0.0001,
+    "n_steps": 9000,
+    "seed": 1,
+    "integrator": "rk4",
+    "relerr": 8.659739592076221e-15
+   },
+   "rk4_n8_dt0.001": {
+    "n": 8,
+    "gamma": 0.37,
+    "T": 0.9,
+    "dt": 0.001,
+    "n_steps": 900,
+    "seed": 1,
+    "integrator": "rk4",
+    "relerr": 4.7406523151494184e-14
+   },
+   "rk4_n8_dt0.0001": {
+    "n": 8,
+    "gamma": 0.37,
+    "T": 0.9,
+    "dt": 0.0001,
+    "n_steps": 9000,
+    "seed": 1,
+    "integrator": "rk4",
+    "relerr": 5.440092820663267e-15
+   },
+   "rk4_n16_dt0.001": {
+    "n": 16,
+    "gamma": 0.37,
+    "T": 0.9,
+    "dt": 0.001,
+    "n_steps": 900,
+    "seed": 1,
+    "integrator": "rk4",
+    "relerr": 8.681944052568724e-14
+   },
+   "rk4_n16_dt0.0001": {
+    "n": 16,
+    "gamma": 0.37,
+    "T": 0.9,
+    "dt": 0.0001,
+    "n_steps": 9000,
+    "seed": 1,
+    "integrator": "rk4",
+    "relerr": 7.216449660063518e-15
+   }
+  },
+  "max_relerr": 8.681944052568724e-14
+ },
+ "direct_monodromy": {
+  "status": "ok: c089, c08995 all reproduced by direct time integration",
+  "c089": {
+   "c": 0.89,
+   "L": 200.0,
+   "N": 2048,
+   "n_sites": 200,
+   "T": 1.1235955056179776,
+   "dt": 0.0009996401295533609,
+   "n_steps": 1124,
+   "elapsed_sec": 5.99,
+   "cs_relerr": 4.496403249731884e-14,
+   "tw_residual_max": 5.1113422176451984e-05,
+   "potential_wrap_mismatch": 4.1587496759087905e-05,
+   "rho_translation_err": 8.011293850529455e-10,
+   "rho_partner_target": 0.8937228611678792,
+   "rho_partner_err": 7.160025905506018e-10,
+   "max_abs_rho": 1.0000000008011294,
+   "leading_multipliers": [
+    [
+     1.0000000008011294,
+     0.0
+    ],
+    [
+     0.9504167069004126,
+     -0.04209429940683887
+    ],
+    [
+     0.9504167069004126,
+     0.04209429940683887
+    ],
+    [
+     0.9494191891579418,
+     -0.05905477220804692
+    ],
+    [
+     0.9494191891579418,
+     0.05905477220804692
+    ],
+    [
+     0.9503746312342956,
+     0.025102372901119118
+    ],
+    [
+     0.9503746312342956,
+     -0.025102372901119118
+    ],
+    [
+     0.946973990286629,
+     0.07589897195198345
+    ]
+   ],
+   "pencil_match": [
+    {
+     "nu": 0.0,
+     "rho_pencil": 1.0,
+     "abs_err": 8.011293850529455e-10
+    },
+    {
+     "nu": -0.1,
+     "rho_pencil": 0.8937228611678792,
+     "abs_err": 7.160025905506018e-10
+    }
+   ],
+   "pencil_match_max_abs_err": 8.011293850529455e-10,
+   "status": "ok: conformal relation, both structural multipliers and every localized pencil mode reproduced by direct time integration"
+  },
+  "c08995": {
+   "c": 0.8995,
+   "L": 200.0,
+   "N": 2048,
+   "n_sites": 200,
+   "T": 1.1117287381878822,
+   "dt": 0.0009890825072845927,
+   "n_steps": 1124,
+   "elapsed_sec": 5.98,
+   "cs_relerr": 4.285460875053104e-14,
+   "tw_residual_max": 5.7251805452240845e-05,
+   "potential_wrap_mismatch": 3.60380724552245e-05,
+   "rho_translation_err": 1.452681275271317e-08,
+   "rho_partner_target": 0.8947840508219336,
+   "rho_partner_err": 1.2998362941551989e-08,
+   "max_abs_rho": 1.0197492999929998,
+   "leading_multipliers": [
+    [
+     1.0197492999929998,
+     0.0
+    ],
+    [
+     0.9999999854731872,
+     0.0
+    ],
+    [
+     0.5976928142437179,
+     -0.7364237846962316
+    ],
+    [
+     0.5976928142437179,
+     0.7364237846962316
+    ],
+    [
+     0.9342126089636549,
+     -0.1637124868237697
+    ],
+    [
+     0.9342126089636549,
+     0.1637124868237697
+    ],
+    [
+     0.1891023687751902,
+     0.9292469607311212
+    ],
+    [
+     0.1891023687751902,
+     -0.9292469607311212
+    ]
+   ],
+   "pencil_match": [
+    {
+     "nu": 0.0,
+     "rho_pencil": 1.0,
+     "abs_err": 1.452681275271317e-08
+    },
+    {
+     "nu": -0.1,
+     "rho_pencil": 0.8947840508219336,
+     "abs_err": 1.2998362941551989e-08
+    },
+    {
+     "nu": 0.017591399,
+     "rho_pencil": 1.019749352048709,
+     "abs_err": 5.205570929867065e-08
+    }
+   ],
+   "pencil_match_max_abs_err": 5.205570929867065e-08,
+   "status": "ok: conformal relation, both structural multipliers and every localized pencil mode reproduced by direct time integration"
+  }
+ }
+}

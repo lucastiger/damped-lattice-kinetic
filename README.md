@@ -26,6 +26,7 @@ pytest -q
 | `src/dlkin/solver.py` | `TravelingWaveSolver`: damped Newton on the collocated advance–delay equation; `init_branch` |
 | `src/dlkin/continuation.py` | natural continuation in `c` and pseudo-arclength through the fold |
 | `src/dlkin/spectral.py` | `phat`, the exact `sigma'(c)`, `kappa`, `m`, and the eigenvalues of the co-traveling pencil |
+| `src/dlkin/monodromy.py` | direct time integration of the linearized lattice: conformal symplecticity and the Floquet multipliers, without the traveling-wave ansatz |
 | `src/dlkin/config.py` | YAML config loading, resolution and the `quick:` overlay |
 | `src/dlkin/io.py` | result files: the metadata block, key-path access, merged partial runs |
 | `configs/`, `scripts/` | experiment configurations and drivers |
@@ -48,6 +49,10 @@ results are *not* expected to reproduce `claims.yaml`.
 | `02_identity_convergence.py` | `data/02_identity.json` | the Jordan-chain identity `kappa = -mu sigma' <phat,1>` at `c = 0.89`, its spectral convergence over six `(L, N)`, its maximum error along the branch, and the 1.6e-4 error of a finite-difference `sigma'` | ~11 min |
 | `03_threshold.py` | `data/03_threshold.json` | `-kappa/m` against the pencil's own eigenvalue across `c_hat1`; the zeros of `sigma'` and of `nu2` coincide to 3e-7 | ~5 min |
 | `04_fold_arclength.py` | `data/04_fold.json` | pseudo-arclength through `c_max = 0.900196`: `<phat,1>` changes sign while `kappa != 0`, so the fold is not a stability change | ~8 min |
+| `05_null_vectors.py` | `data/05_nullvec.json`, `data/05_null_profiles.csv` | decay and localization of `phi'` and `phat`; the singular-value gap that says `ker M0` is one-dimensional; and that no exponential weight relates the two | ~50 s |
+| `06_spectrum.py` | `data/06_spectrum.json`, `data/06_spectrum_*.csv` | the pencil spectrum either side of the threshold: no real non-trivial eigenvalue at `c = 0.89`, one at `+0.0176` at `c = 0.8995` | ~20 s |
+| `07_conformal_symplectic.py` | `data/07_conformal.json` | `M^T J M = e^{-gamma T} J` on a random symmetric `K(t)`, and on the actual FK monodromy by direct integration | ~40 s |
+| `08_general_lattices.py` | `data/08_general.json` | `kappa = -f'(c) <phat,1>` in five lattices with different potentials, coupling ranges, substrate strengths and damping | ~50 s |
 
 The heaviest single computation in the repository is the `L300_N6144` convergence case of
 experiment 02 -- 6145 x 6145 dense matrices, ~300 MB each, a few minutes on its own.  It
@@ -63,11 +68,17 @@ The numerical core (grid, operators, model, Newton solver, continuation) and the
 spectral / biorthogonal layer (`phat`, `kappa`, `m`, pencil eigenvalues) are in place and
 are checked against `handoff/reference/{fk,spectral}.py` in `tests/test_reference_smoke.py`
 and `tests/test_spectral.py` -- the restructured code reproduces the reference bit for
-bit.  Experiments 01-04 are written and their `data/*.json` are committed; all 78
-`claims.yaml` claims that point at those four files pass.  Three findings from running them
+bit.  Experiments 01-08 are written and their `data/*.json` are committed; all 125
+`claims.yaml` claims pass.  Three findings from running them
 have been carried back into the handoff bundle -- the relative error of the identity near
 `c_hat1`, the spacing convention of the finite-difference comparison, and the rule that
 separates an isolated eigenvalue from the discretized essential spectrum -- so `note.tex`,
-`SCIENCE_BRIEF.md` and `claims.yaml` now agree with the committed data.  Experiments 05-08
-(null-vector decay, the full spectrum snapshot, conformal symplecticity, the scope survey)
-and `scripts/check_claims.py` are not written yet.
+`SCIENCE_BRIEF.md` and `claims.yaml` now agree with the committed data.
+
+Experiment 07 also carries an **independent cross-check that the manuscript does not
+claim**: the monodromy of the linearized lattice, built by integrating in time rather than
+through the co-traveling pencil, so that neither computation assumes the other.  It
+reproduces `rho = 1`, its conformal partner `e^{-gamma/c}`, and — at `c = 0.8995` — the
+unstable multiplier `1.019749` that the pencil predicts from `nu_2 = +0.017591`, to 5e-8.
+
+`scripts/check_claims.py` is not written yet.

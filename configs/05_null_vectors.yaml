@@ -1,0 +1,61 @@
+# The two null vectors phi' (of M0) and phat (of M0^T): how they decay, how localized they
+# are, that ker M0 really is one-dimensional, and that no exponential weight relates them.
+#
+# Production settings; `--quick` deep-merges the `quick:` section over everything above.
+
+grid:
+  L: 200.0
+  N: 4096
+
+model:
+  mu: 1.0
+  gamma: 0.1
+  mu2: 0.0
+  couplings: [[1, 1.0]]
+  template_width: 2.0
+
+run:
+  phat: {normalization: unit, seed: 0, iters: 80, shift: 1.0e-14}
+  newton: {tol: 1.0e-12, maxit: 40}
+  c0: 0.88
+  c: 0.89
+  approach: {start: 0.881, stop: 0.890, step: 1.0e-3}
+
+  # (a)+(d) decay table and the profiles the figure is drawn from
+  decay:
+    L: 200.0
+    N: 4096
+    offsets: [0, 10, 20, 40, 80, 120, 199]
+    csv: data/05_null_profiles.csv
+
+  # (b) fraction of discrete L2 mass inside |xi| < radius
+  localization:
+    L: 200.0
+    N: 2048
+    radius: 20.0
+
+  # (c) the three smallest singular values of M0 -- the evidence that ker M0 is simple
+  sv:
+    L: 200.0
+    N: 2048
+    n_smallest: 3
+
+  # (e) is phat a weighted copy of phi'?  See the script docstring.
+  weight_test:
+    xi_max: 150.0
+    p0_floor: 1.0e-12
+    percentile: 5.0
+    envelope_window: 10.0     # width in xi of the sliding window for the envelope ratio
+
+quick:
+  grid: {L: 100.0, N: 1024}
+  run:
+    approach: {start: 0.885, stop: 0.890, step: 5.0e-3}
+    decay:
+      L: 100.0
+      N: 1024
+      offsets: [0, 10, 20, 40, 80, 99]
+      csv: data/05_null_profiles_quick.csv
+    localization: {L: 100.0, N: 512}
+    sv: {L: 100.0, N: 512}
+    weight_test: {xi_max: 80.0}

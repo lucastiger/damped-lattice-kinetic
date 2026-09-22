@@ -1,0 +1,45 @@
+
+(a) decay envelopes  (c = 0.89, L = 200, N = 4096; each function normalized by its own max -- NOT monotone, the tails oscillate)
+|xi|  nearest grid xi        phi'        phat  ratio
+----  ---------------  ----------  ----------  -----
+   0           0.0000  6.7417e-01  4.7837e-01  1.409
+  10           9.9609  1.2229e-01  1.4837e-01  0.824
+  20          20.0195  5.3282e-03  6.6548e-03  0.801
+  40          40.0391  1.1923e-02  1.1888e-02  1.003
+  80          79.9805  1.1865e-04  1.2388e-04  0.958
+ 120         120.0195  2.6547e-07  1.1862e-07  2.238
+ 199         199.0234  1.0628e-09  1.0861e-09  0.979
+
+(b) localization: share of discrete L2 mass with |xi| < 20  (L = 200, N = 2048)
+vector  fraction
+------  --------
+  phi'  0.989814
+  phat  0.989794
+
+(c) smallest singular values of M0  (L = 200, N = 2048, c = 0.89; 1.4 s)
+index  singular value
+-----  --------------
+   s1    2.659944e-09
+   s2    9.887184e-02
+   s3    1.909332e-01
+    s2/s1 = 3.717e+07: one singular value at the discretization level and the next seven orders above it -- ker M0 is one-dimensional here.
+
+(e) is phat = phi' x exp(-gamma xi/c)?   |xi| < 150, c = 0.89
+                                                  quantity      value
+----------------------------------------------------------  ---------
+                                      pointwise ratio: max  3.268e+12
+                                      pointwise ratio: min  1.904e-17
+                                      pointwise log10 span      29.23
+                              pointwise log10 span, p5-p95      26.69
+                          -- span if the weight were exact          0
+ENVELOPE ratio (symmetrized in |xi|), 10-wide windows: max          1
+                                       ENVELOPE ratio: min     0.9611
+                                       ENVELOPE log10 span    0.01722
+                          -- growth the weight would force       7.32
+    Pointwise: span 29.2 decades against 0 if the weight were exact, so the weight is
+    refuted -- but that span is dominated by the two functions' isolated zeros and its size is
+    not interpretable.  ENVELOPE (symmetrized): span 0.02 decades, against 7.3 decades of
+    GROWTH the weight would force out to |xi| = 150.  The two envelopes track each other instead:
+    phat is NOT phi' in the weight exp(-gamma xi/c), so H3 does not follow from the decay of phi'.
+
+wrote data/05_nullvec.json  (50.0 s, quick=False)

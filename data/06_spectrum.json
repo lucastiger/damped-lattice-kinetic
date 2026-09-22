@@ -1,0 +1,138 @@
+{
+ "metadata": {
+  "schema": 1,
+  "script": "scripts/06_spectrum.py",
+  "quick": false,
+  "created": "2026-09-22T00:27:52+00:00",
+  "sections": [
+   "c089",
+   "c08995"
+  ],
+  "elapsed_sec": 17.959,
+  "config": "configs/06_spectrum.yaml",
+  "config_sha256_16": "0bb5fab9fd78bdcc",
+  "versions": {
+   "python": "3.11.15",
+   "numpy": "2.4.6",
+   "scipy": "1.17.1"
+  },
+  "git_commit": "8b14d1c",
+  "config_contents": {
+   "grid": {
+    "L": 200.0,
+    "N": 2048
+   },
+   "model": {
+    "mu": 1.0,
+    "gamma": 0.1,
+    "mu2": 0.0,
+    "couplings": [
+     [
+      1,
+      1.0
+     ]
+    ],
+    "template_width": 2.0
+   },
+   "run": {
+    "phat": {
+     "normalization": "minus2pi",
+     "seed": 0,
+     "iters": 80,
+     "shift": 1e-14
+    },
+    "newton": {
+     "tol": 1e-12,
+     "maxit": 40
+    },
+    "c0": 0.88,
+    "approach": {
+     "start": 0.881,
+     "stop": 0.89,
+     "step": 0.001
+    },
+    "walk_step": 0.001,
+    "decimals": 7,
+    "eigs": {
+     "shift": -0.045,
+     "k": 40,
+     "tol": 1e-11,
+     "imtol": 1e-07
+    },
+    "blocks": {
+     "c089": 0.89,
+     "c08995": 0.8995
+    },
+    "csv_template": "data/06_spectrum_{block}.csv"
+   }
+  },
+  "normalization": "minus2pi"
+ },
+ "quick": false,
+ "c089": {
+  "c": 0.89,
+  "L": 200.0,
+  "N": 2048,
+  "shift": -0.045,
+  "k": 40,
+  "n_eigs": 40,
+  "sigma": 0.6373006908740676,
+  "nu_zero_abs": 7.254025657932317e-09,
+  "nu_minus_gamma": -0.1000000072540248,
+  "nu_minus_gamma_imag": -1.4659178045555224e-16,
+  "pairing_max_err": 8.105875558859103e-15,
+  "pairing_worst_nu": [
+   -0.05083746339342886,
+   -0.05187605334177934
+  ],
+  "pairing_worst_partner_outside_window": false,
+  "window_radius": 0.0712063755433898,
+  "n_real_nontrivial": 0,
+  "real_nontrivial": [],
+  "circle_radius": 0.9453691666052364,
+  "max_abs_rho": 1.0000000081505906,
+  "essential_re_max_dev": 0.003821754737904276,
+  "csv": "data/06_spectrum_c089.csv",
+  "columns": [
+   "nu_real",
+   "nu_imag",
+   "rho_real",
+   "rho_imag",
+   "abs_rho"
+  ]
+ },
+ "c08995": {
+  "c": 0.8995,
+  "L": 200.0,
+  "N": 2048,
+  "shift": -0.045,
+  "k": 40,
+  "n_eigs": 40,
+  "sigma": 0.6499273458937704,
+  "nu_zero_abs": 6.166917707745023e-08,
+  "nu_minus_gamma": -0.09999993833082291,
+  "nu_minus_gamma_imag": -5.0007302779808695e-17,
+  "pairing_max_err": 0.01759146102277892,
+  "pairing_worst_nu": [
+   0.017591399353601822,
+   6.47138129636769e-17
+  ],
+  "pairing_worst_partner_outside_window": true,
+  "window_radius": 0.07212873299295224,
+  "n_real_nontrivial": 1,
+  "real_nontrivial": [
+   0.017591399
+  ],
+  "circle_radius": 0.9459302568487454,
+  "max_abs_rho": 1.0197493524495822,
+  "essential_re_max_dev": 0.0001841102665143951,
+  "csv": "data/06_spectrum_c08995.csv",
+  "columns": [
+   "nu_real",
+   "nu_imag",
+   "rho_real",
+   "rho_imag",
+   "abs_rho"
+  ]
+ }
+}

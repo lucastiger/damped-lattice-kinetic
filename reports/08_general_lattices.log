@@ -1,0 +1,26 @@
+    fk: f=0.481960 f'=2.174156 kappa=1.146659 relerr=1.80e-10
+    mu2m05: f=0.540326 f'=2.676268 kappa=1.069733 relerr=3.93e-06
+    nnn: f=0.166333 f'=0.601746 kappa=0.480627 relerr=6.93e-15
+    mu2nnn: f=0.191512 f'=1.009012 kappa=0.735407 relerr=2.13e-11
+    soft: f=0.379908 f'=1.487688 kappa=1.177935 relerr=1.50e-13
+
+kappa = -f'(c) <phat,1>  (c = 0.82, L = 200, N = 2048, ||phat||_2 = 1)
+lattice         f        f'     kappa  -f' <phat,1>    relerr  Newton res
+-------  --------  --------  --------  ------------  --------  ----------
+     fk  0.481960  2.174156  1.146659      1.146659  1.80e-10     1.1e-13
+ mu2m05  0.540326  2.676268  1.069733      1.069737  3.93e-06     2.9e-13
+    nnn  0.166333  0.601746  0.480627      0.480627  6.93e-15     1.0e-13
+ mu2nnn  0.191512  1.009012  0.735407      0.735407  2.13e-11     1.5e-13
+   soft  0.379908  1.487688  1.177935      1.177935  1.50e-13     3.6e-13
+
+refinement: mu2m05 at N = 4096
+       quantity            value
+---------------  ---------------
+              f     0.5403273567
+             f'      2.676266649
+          kappa       0.75640824
+         relerr  2.415486684e-12
+Newton residual  1.993960552e-12
+    mu2p035: continuation from psi=0 did not converge at c=0.55; final residual 1.249e+00 (4.3 s)
+
+wrote data/08_general.json  (50.6 s, quick=False)
