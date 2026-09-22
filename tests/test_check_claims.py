@@ -205,3 +205,37 @@ def test_manuscript_copy_is_preferred_and_matches_the_handoff_original(cc) -> No
     assert path.name == "claims.yaml" and path.parent.name == "manuscript"
     assert cc.manifests_differ() is None
     assert len(manifest["claims"]) > 100
+
+
+# ----------------------------------------------------- the staleness guard --
+@pytest.fixture(scope="module")
+def prov():
+    """Import scripts/provenance.py as a module."""
+    spec = importlib.util.spec_from_file_location("provenance", SCRIPTS / "provenance.py")
+    module = importlib.util.module_from_spec(spec)
+    sys.modules["provenance"] = module
+    spec.loader.exec_module(module)
+    return module
+
+
+def test_every_data_file_maps_to_a_script_and_config_that_exist(prov) -> None:
+    """The staleness check asks git about per-file dependencies; those paths must be real."""
+    for data_file, stem in prov.EXPECTED.items():
+        assert (SCRIPTS / f"{stem}.py").is_file(), f"{data_file} -> missing scripts/{stem}.py"
+        assert (SCRIPTS.parent / "configs" / f"{stem}.yaml").is_file(), (
+            f"{data_file} -> missing configs/{stem}.yaml"
+        )
+
+
+def test_io_is_excluded_from_the_dependency_set(prov) -> None:
+    """io.py writes the result file, so it can move metadata but not any claimed number."""
+    assert ":!src/dlkin/io.py" in prov.SHARED_PATHS
+
+
+def test_unknown_sha_is_reported_as_unanswerable_not_as_fine(prov) -> None:
+    """A question git cannot answer must not come back as 'still valid'."""
+    assert prov.deps_changed_since("0000000000000000000000000000000000000000", "03_threshold") is None
+
+
+def test_head_against_itself_shows_no_change(prov) -> None:
+    assert prov.deps_changed_since(prov.head(), "03_threshold") == []

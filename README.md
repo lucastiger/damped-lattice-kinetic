@@ -31,8 +31,11 @@ say so, which `make check` then refuses to count as passes.
 
 Nothing reuses stale data in silence. Every result file records the git sha and the wall
 clock it was produced at, `make data` prints them before and after the run via
-[`scripts/provenance.py`](scripts/provenance.py), and a file built at a commit other than
-`HEAD` is called out. [`reports/RUNTIME.md`](reports/RUNTIME.md) is regenerated from the
+[`scripts/provenance.py`](scripts/provenance.py), and any file whose script, config or
+library changed since it was written is called out. That check is per data file and
+deliberately conservative: it reports a changed dependency without judging whether the
+change was substantive, so it fires on the commit that records a run (that commit can also
+touch the library) — there, a re-run is optional. What it will never do is stay silent. [`reports/RUNTIME.md`](reports/RUNTIME.md) is regenerated from the
 same metadata and says which parts of the pipeline are impractical in CI.
 
 ## Checking the manuscript against the data

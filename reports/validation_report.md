@@ -18,22 +18,22 @@ None. Every claim that was checked passed at its stated tolerance.
 | strict mode | on |
 | manifest | `manuscript/claims.yaml` |
 | manifest drift | none — manuscript copy matches the handoff original |
-| git sha (HEAD) | `485af29` |
-| generated | 2026-09-22T01:22:51+00:00 |
+| git sha (HEAD) | `dc307e5` |
+| generated | 2026-09-22T01:25:34+00:00 |
 | pipeline wall time (from data metadata) | 37.6 min |
 
 ### Data files
 
 | file | exists | quick | git sha | matches HEAD | mtime (UTC) | wall time | peak RSS |
 |---|---|---|---|---|---|---|---|
-| `data/01_kinetic.json` | yes | no | `485af29` | yes | 2026-09-22T00:52:55+00:00 | 637 s | 877 MB |
-| `data/02_identity.json` | yes | no | `485af29` | yes | 2026-09-22T01:04:45+00:00 | 710 s | 2009 MB |
-| `data/03_threshold.json` | yes | no | `485af29` | yes | 2026-09-22T01:09:27+00:00 | 282 s | 1134 MB |
-| `data/04_fold.json` | yes | no | `485af29` | yes | 2026-09-22T01:17:37+00:00 | 489 s | 439 MB |
-| `data/05_nullvec.json` | yes | no | `485af29` | yes | 2026-09-22T01:18:19+00:00 | 42 s | 861 MB |
-| `data/06_spectrum.json` | yes | no | `485af29` | yes | 2026-09-22T01:18:36+00:00 | 16 s | 342 MB |
-| `data/07_conformal.json` | yes | no | `485af29` | yes | 2026-09-22T01:19:10+00:00 | 34 s | 347 MB |
-| `data/08_general.json` | yes | no | `485af29` | yes | 2026-09-22T01:19:56+00:00 | 45 s | 864 MB |
+| `data/01_kinetic.json` | yes | no | `485af29` | **no** | 2026-09-22T00:52:55+00:00 | 637 s | 877 MB |
+| `data/02_identity.json` | yes | no | `485af29` | **no** | 2026-09-22T01:04:45+00:00 | 710 s | 2009 MB |
+| `data/03_threshold.json` | yes | no | `485af29` | **no** | 2026-09-22T01:09:27+00:00 | 282 s | 1134 MB |
+| `data/04_fold.json` | yes | no | `485af29` | **no** | 2026-09-22T01:17:37+00:00 | 489 s | 439 MB |
+| `data/05_nullvec.json` | yes | no | `485af29` | **no** | 2026-09-22T01:18:19+00:00 | 42 s | 861 MB |
+| `data/06_spectrum.json` | yes | no | `485af29` | **no** | 2026-09-22T01:18:36+00:00 | 16 s | 342 MB |
+| `data/07_conformal.json` | yes | no | `485af29` | **no** | 2026-09-22T01:19:10+00:00 | 34 s | 347 MB |
+| `data/08_general.json` | yes | no | `485af29` | **no** | 2026-09-22T01:19:56+00:00 | 45 s | 864 MB |
 
 ## All claims, by manuscript location
 
