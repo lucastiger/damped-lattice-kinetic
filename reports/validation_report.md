@@ -1,7 +1,7 @@
 # Validation report
 
-- generated: 2026-10-04T10:30:58+00:00
-- commit: `28b3a51`
+- generated: 2026-10-05T23:01:13+00:00
+- commit: `c10f445`
 - manifest: `manuscript/claims.yaml`
 - mode: strict
 
