@@ -32,3 +32,6 @@ markers = [
     "slow: marks tests that take more than a few seconds (deselect with '-m \"not slow\"')",
 ]
 filterwarnings = ["error::RuntimeWarning"]
+
+[project.optional-dependencies]
+dev = ["pytest>=7.0", "matplotlib>=3.7", "pyyaml>=6.0"]

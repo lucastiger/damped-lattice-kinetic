@@ -43,6 +43,13 @@ from .grid import (
     sym_shift_laplacian,
 )
 from .model import LatticeModel, Template, template_arrays
+from .monodromy import (
+    LatticeMonodromy,
+    conformal_symplectic_flow_test,
+    lattice_monodromy,
+    sample_profile_at_sites,
+    symplectic_form,
+)
 from .solver import ConvergenceError, NewtonResult, TravelingWaveSolver, init_branch
 from .spectral import (
     PHAT_NORMALIZATIONS,
@@ -54,6 +61,7 @@ from .spectral import (
     normalize_phat,
     pencil_eigs,
     positive_real_union,
+    classify_real_eigenvalues,
     real_nontrivial,
 )
 
@@ -68,6 +76,12 @@ __all__ = [
     # grid / operators
     "Grid",
     "circulant_from_symbol",
+    "classify_real_eigenvalues",
+    "LatticeMonodromy",
+    "conformal_symplectic_flow_test",
+    "lattice_monodromy",
+    "sample_profile_at_sites",
+    "symplectic_form",
     "sym_d1",
     "sym_d2",
     "sym_shift_laplacian",

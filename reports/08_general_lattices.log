@@ -1,0 +1,18 @@
+  fk       f=0.481960  relerr=1.80e-10
+  mu2m05   f=0.540326  relerr=3.93e-06
+  nnn      f=0.166333  relerr=1.47e-14
+  mu2nnn   f=0.191512  relerr=2.13e-11
+  soft     f=0.379908  relerr=1.50e-13
+  mu2p035  did not converge (expected): Newton failed to converge at c=0.55: after 40 iterations the residual max(|R|_inf, |psi(0)|) = 1.255e+00 still exceeds tol_fail=1.000e-09.
+  refinement mu2m05 at N=4096: relerr=2.39e-12
+
+kappa = -f'(c) <phat,1> at c = 0.82 (phat: Euclidean unit norm, so kappa scales with N)
+  case         f     f'(c)     kappa  -f' <phat,1>  rel. err
+------  --------  --------  --------  ------------  --------
+    fk  0.481960  2.174156  1.146659      1.146659  1.80e-10
+mu2m05  0.540326  2.676268  1.069733      1.069737  3.93e-06
+   nnn  0.166333  0.601746  0.480627      0.480627  1.47e-14
+mu2nnn  0.191512  1.009012  0.735407      0.735407  2.13e-11
+  soft  0.379908  1.487688  1.177935      1.177935  1.50e-13
+
+wrote data/08_general.json  (81.6 s, quick=False)

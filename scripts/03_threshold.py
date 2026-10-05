@@ -70,9 +70,9 @@ from _common import build_parser, crange, load, march, output_path, print_table,
 from dlkin import (
     Grid,
     branch_scalars,
+    classify_real_eigenvalues,
     init_branch,
     pencil_eigs,
-    real_nontrivial,
     save_result,
 )
 
@@ -148,24 +148,18 @@ def _select_nu2(scalars, gamma: float, eigs_cfg: Dict[str, Any]):
         k=int(eigs_cfg["k"]),
         tol=float(eigs_cfg["tol"]),
     )
-    candidates = real_nontrivial(nus, gamma, imtol=imtol)
     half = float(eigs_cfg["match_window"])
-    duality_tol = float(eigs_cfg["duality_tol"])
-    line = -0.5 * gamma
-
-    # how far off Re nu = -gamma/2 this Arnoldi window's *complex* (certainly essential)
-    # eigenvalues are thrown by the discretization
-    spread = [abs(float(np.real(x)) - line) for x in nus if abs(np.imag(x)) >= imtol]
-    delta_essential = max(spread) if spread else 0.0
-    reach = float(eigs_cfg["line_factor"]) * delta_essential
-
-    essential = [
-        x
-        for x in candidates
-        if abs(x - line) <= reach
-        and any(abs(x + y + gamma) < duality_tol for y in candidates)
-    ]
-    isolated = [x for x in candidates if x not in essential]
+    split = classify_real_eigenvalues(
+        nus,
+        gamma,
+        imtol=imtol,
+        duality_tol=float(eigs_cfg["duality_tol"]),
+        line_factor=float(eigs_cfg["line_factor"]),
+    )
+    candidates = split["candidates"]
+    essential = split["essential_pairs"]
+    isolated = split["isolated"]
+    delta_essential = split["delta_essential"]
 
     nu2_window = next(
         iter(sorted((x for x in candidates if abs(x - scalars.nu2_pred) < half),

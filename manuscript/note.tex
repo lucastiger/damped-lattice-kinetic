@@ -425,7 +425,7 @@ rescaling does not by itself reduce the stability question to a Hamiltonian one.
 (2) The substitution $\chi=e^{-\gamma\xi/c}\psi$ intertwines the \emph{differential} parts of
 $M_0$ and $M_0^{\T}$ exactly, but maps the shifts to
 $e^{\mp\gamma/c}\psi(\xi\pm1)$, so it does not intertwine $M_0$ with $M_0^{\T}$. Numerically,
-$\ph$ shows no relative exponential envelope with respect to $\phi'$
+the tails of $\ph$ mirror those of $\phi'$ rather than carrying this weight
 (Observation~\ref{obs:decay}). The route taken below bypasses weights altogether and uses
 Proposition~\ref{prop:duality}.
 \end{remark}
@@ -812,7 +812,7 @@ operator.}
 \toprule
 $L$ & $N$ & $h$ & relative error of~\eqref{eq:identity} & $\|M_0\phi'\|_\infty/\|\phi'\|_\infty$\\
 \midrule
-200 & 1024 & 0.391 & $3.1\times10^{-4}$ & $9.8\times10^{-2}$\\
+200 & 1024 & 0.391 & $3.0\times10^{-4}$ & $9.8\times10^{-2}$\\
 200 & 2048 & 0.195 & $1.3\times10^{-8}$ & $2.9\times10^{-4}$\\
 200 & 4096 & 0.098 & $4.2\times10^{-14}$ & $2.5\times10^{-9}$\\
 300 & 3072 & 0.195 & $1.3\times10^{-8}$ & $2.9\times10^{-4}$\\
@@ -948,7 +948,10 @@ step & $c$ & $\sigma$ & $\dot c$ & $\kappa$ & $\ip{\ph}{\one}$ & $\nu$ ($\rho$)\
 \figinclude{fig3_fold_dichotomy.pdf}
 \caption{Quantities along arclength through the first turning point: $\dot c$,
 $\ip{\ph}{\one}$, $\kappa$ and the unstable eigenvalue $\nu$. The zeros of $\dot c$ and
-$\ip{\ph}{\one}$ coincide; $\kappa$ and $\nu$ are smooth and nonzero.}
+$\ip{\ph}{\one}$ coincide; $\kappa$ and $\nu$ are smooth and nonzero. The orientation of $\ph$
+is carried continuously along the branch; the stored convention $\ip{\ph}{\phi'}>0$ flips a few
+steps after the fold (cf.\ Table~\ref{tab:fold}), which is a change of sign of $\ph$, not a
+zero of $\kappa$.}
 \label{fig:fold}
 \end{figure}
 
@@ -956,10 +959,17 @@ $\ip{\ph}{\one}$ coincide; $\kappa$ and $\nu$ are smooth and nonzero.}
 
 \begin{observation}\label{obs:decay}
 At $c=0.89$ ($L=200$, $N=4096$), $\|M_0^{\T}\ph\|/\|\ph\|=7\times10^{-14}$. Both null vectors
-are localized ($99.0\%$ of the discrete $L^2$ mass in $|\xi|<20$ at $N=2048$) and decay with envelopes of equal
-magnitude (Table~\ref{tab:decay}, Figure~\ref{fig:null}). A relative factor
-$e^{\pm\gamma\xi/c}$ between them, as a naive exponential weight would imply, would amount to
-$e^{\pm22}$ at $|\xi|=199$; none is present. At $N=2048$ the three smallest singular values of $M_0$ are
+are localized ($99.0\%$ of the discrete $L^2$ mass in $|\xi|<20$ at $N=2048$) and each falls by
+nine orders of magnitude across the domain (Table~\ref{tab:decay}, Figure~\ref{fig:null}), which
+is the numerical content of Hypothesis~\ref{H:adjoint}. They are not, however, proportional, and
+they are not related by an exponential weight. Their tails are mirror images: the envelope of
+$|\ph|$ at $+\xi$ matches that of $|\phi'|$ at $-\xi$ to within $1$--$5\%$ at
+$|\xi|=50,100,150,190$, across four decades of magnitude. The anti-damped adjoint radiates on
+the opposite side of the kink, as reversing the sign of $\gamma$ requires. The weight
+$e^{-\gamma\xi/c}$ of Remark~\ref{rem:weights}(2) would instead force
+$\log(\operatorname{env}|\ph|/\operatorname{env}|\phi'|)$ to decrease with slope
+$-\gamma/c=-0.112$; a least-squares fit over $|\xi|<150$ gives $+0.097$, comparable in size and
+opposite in sign. At $N=2048$ the three smallest singular values of $M_0$ are
 $2.7\times10^{-9}$, $9.9\times10^{-2}$ and $1.9\times10^{-1}$, consistent with a
 one-dimensional kernel (Hypothesis~\ref{H:fredholm}).
 \end{observation}
@@ -984,7 +994,12 @@ $1.2\times10^{-4}$ & $1.2\times10^{-7}$ & $1.1\times10^{-9}$\\
 \begin{figure}[t]
 \centering
 \figinclude{fig4_null_vectors.pdf}
-\caption{$|\phi'|$ and $|\ph|$ at $c=0.89$ on a logarithmic scale.}
+\caption{Left: $|\phi'|$ and $|\ph|$ at $c=0.89$ on a logarithmic scale. Right: their
+envelopes compared under reflection, $\operatorname{env}|\phi'|(-\xi)$ against
+$\operatorname{env}|\ph|(+\xi)$, which coincide over eleven decades, together with
+$\operatorname{env}|\phi'|(+\xi)\,e^{-\gamma\xi/c}$, the profile an exponentially weighted space
+would impose on $\ph$ (dotted). The tails of $\ph$ mirror those of $\phi'$ rather than tilting
+them (Observation~\ref{obs:decay}).}
 \label{fig:null}
 \end{figure}
 

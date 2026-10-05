@@ -1,0 +1,191 @@
+{
+ "metadata": {
+  "schema": 1,
+  "script": "scripts/07_conformal_symplectic.py",
+  "quick": false,
+  "created": "2026-10-02T08:44:41+00:00",
+  "sections": [
+   "random_K",
+   "lattice"
+  ],
+  "elapsed_sec": 187.207,
+  "config": "configs/07_conformal_symplectic.yaml",
+  "config_sha256_16": "110cca3f3cffe88d",
+  "versions": {
+   "python": "3.12.3",
+   "numpy": "2.4.4",
+   "scipy": "1.17.1"
+  },
+  "git_commit": "b6e0951",
+  "config_contents": {
+   "grid": {
+    "L": 200.0,
+    "N": 2048
+   },
+   "model": {
+    "mu": 1.0,
+    "gamma": 0.1,
+    "mu2": 0.0,
+    "couplings": [
+     [
+      1,
+      1.0
+     ]
+    ],
+    "template_width": 2.0
+   },
+   "run": {
+    "phat": {
+     "normalization": "minus2pi",
+     "seed": 0,
+     "iters": 80,
+     "shift": 1e-14
+    },
+    "newton": {
+     "tol": 1e-12,
+     "maxit": 40
+    },
+    "random_K": {
+     "reference": {
+      "n": 8,
+      "gamma": 0.37,
+      "T": 0.9,
+      "dt": 0.0001,
+      "seed": 1
+     },
+     "sweep": {
+      "n": [
+       4,
+       8,
+       16
+      ],
+      "dt": [
+       0.001,
+       0.0001
+      ]
+     }
+    },
+    "lattice": {
+     "c0": 0.88,
+     "approach_step": 0.001,
+     "c_values": [
+      0.89,
+      0.8995
+     ],
+     "steps": 2000,
+     "steps_refine": 4000,
+     "symplectic_pairs": 8,
+     "symplectic_seed": 0,
+     "arnoldi": {
+      "k": 6,
+      "tol": 1e-08,
+      "maxiter": 3000,
+      "power_iters": 250
+     },
+     "pencil": {
+      "shift": 0.006,
+      "k": 24,
+      "tol": 1e-10
+     }
+    }
+   }
+  }
+ },
+ "quick": false,
+ "random_K": {
+  "relerr": 1.9206858326015208e-14,
+  "reference": {
+   "relerr": 1.9206858326015208e-14,
+   "relerr_without_shift": 1.9206858326015208e-14,
+   "n": 8,
+   "gamma": 0.37,
+   "T": 0.9,
+   "dt": 0.0001,
+   "steps": 9000,
+   "seed": 1,
+   "resample": true
+  },
+  "sweep": [
+   {
+    "n": 4,
+    "dt": 0.001,
+    "relerr": 4.6629367034256575e-15,
+    "steps": 900
+   },
+   {
+    "n": 4,
+    "dt": 0.0001,
+    "relerr": 1.765254609153999e-14,
+    "steps": 9000
+   },
+   {
+    "n": 8,
+    "dt": 0.001,
+    "relerr": 4.551914400963142e-15,
+    "steps": 900
+   },
+   {
+    "n": 8,
+    "dt": 0.0001,
+    "relerr": 1.9206858326015208e-14,
+    "steps": 9000
+   },
+   {
+    "n": 16,
+    "dt": 0.001,
+    "relerr": 1.1546319456101628e-14,
+    "steps": 900
+   },
+   {
+    "n": 16,
+    "dt": 0.0001,
+    "relerr": 2.731148640577885e-14,
+    "steps": 9000
+   }
+  ],
+  "sweep_max_relerr": 2.731148640577885e-14
+ },
+ "direct_monodromy": {
+  "c0p89000": {
+   "c": 0.89,
+   "n_sites": 400,
+   "steps": 2000,
+   "drift_position": 3.6513879706490115e-06,
+   "drift_velocity": 5.117970632628754e-06,
+   "drift_position_refined": 3.651387965319941e-06,
+   "symplectic_residual": 5.5364269165639414e-14,
+   "translation_residual_rel": 6.524782235987082e-06,
+   "translation_rayleigh_minus_one": -5.985947846287587e-07,
+   "translation_residual_refined": 6.524377984436154e-06,
+   "dominant_rho": 1.0000006644260513,
+   "dominant_residual_rel": 6.239863065498801e-06,
+   "dominant_iterations": 250,
+   "dominant_converged": false,
+   "pencil_rho_nearest": 1.0000000081505995,
+   "pencil_nu_nearest": 7.254033513627578e-09,
+   "dominant_vs_pencil": 6.562754517602798e-07
+  },
+  "c0p89950": {
+   "c": 0.8995,
+   "n_sites": 400,
+   "steps": 2000,
+   "drift_position": 4.3820163924124245e-06,
+   "drift_velocity": 6.43811776313008e-06,
+   "drift_position_refined": 4.382016385306997e-06,
+   "symplectic_residual": 4.281712601195343e-14,
+   "translation_residual_rel": 8.136556179541473e-06,
+   "translation_rayleigh_minus_one": -8.42087061969643e-07,
+   "translation_residual_refined": 8.135015885813087e-06,
+   "dominant_rho": 1.0200010926375362,
+   "dominant_residual_rel": 0.0001752857462318728,
+   "dominant_iterations": 250,
+   "dominant_converged": false,
+   "pencil_rho_nearest": 1.0197493524496202,
+   "pencil_nu_nearest": 0.017591399353635337,
+   "dominant_vs_pencil": 0.0002517401879160719
+  },
+  "status": "ok",
+  "worst_symplectic_residual": 5.5364269165639414e-14,
+  "worst_translation_residual": 8.136556179541473e-06
+ }
+}

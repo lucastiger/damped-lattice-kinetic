@@ -42,7 +42,7 @@ their relation or any ratio.  Every record must say which was used -- hence
 from __future__ import annotations
 
 from dataclasses import dataclass, field
-from typing import Iterable, List, Sequence
+from typing import Any, Dict, Iterable, List, Sequence
 
 import numpy as np
 from scipy.linalg import lu_factor, lu_solve
@@ -406,6 +406,57 @@ def real_nontrivial(
         },
         reverse=True,
     )
+
+
+def classify_real_eigenvalues(
+    nus: Iterable[complex],
+    gamma: float,
+    imtol: float = 1e-7,
+    duality_tol: float = 1e-6,
+    line_factor: float = 2.0,
+    zero_tol: float = 1e-6,
+    decimals: int = 9,
+) -> Dict[str, Any]:
+    """Split the real part of an Arnoldi window into isolated modes and discretized continuum.
+
+    Near the stability threshold this is not a formality.  By R3 the essential spectrum is the
+    line ``Re nu = -gamma/2``; on a finite domain it becomes ``O(N)`` discrete eigenvalues
+    scattered a little off that line, and some come back with ``|Im nu| < imtol`` -- taken one
+    at a time, indistinguishable from an isolated real mode.  Two structural facts separate
+    them, neither of which needs a tuned constant:
+
+    * By R2 the spectrum is invariant under ``nu -> -gamma - nu``, so a *pair* of candidates
+      summing to ``-gamma`` is symmetric about the line.  An isolated mode also has a dual
+      partner, but far from the line, not beside it -- which is why the pairing test alone is
+      not enough and the second test is needed.
+    * The *complex* eigenvalues of the same window are unambiguously essential, so their
+      spread about the line, ``delta_essential``, measures how far off it the discretization
+      throws them.
+
+    A candidate is discarded when it is *both* half of a dual pair *and* within
+    ``line_factor * delta_essential`` of the line.  Everything else is isolated.
+
+    Returned: ``isolated``, ``essential_pairs``, ``delta_essential``, ``candidates``.
+    """
+    nus = list(nus)
+    line = -0.5 * gamma
+    candidates = real_nontrivial(nus, gamma, imtol=imtol, zero_tol=zero_tol, decimals=decimals)
+    spread = [abs(float(np.real(x)) - line) for x in nus if abs(np.imag(x)) >= imtol]
+    delta_essential = max(spread) if spread else 0.0
+    reach = line_factor * delta_essential
+    essential = [
+        x
+        for x in candidates
+        if abs(x - line) <= reach and any(abs(x + y + gamma) < duality_tol for y in candidates)
+    ]
+    isolated = [x for x in candidates if x not in essential]
+    return {
+        "candidates": candidates,
+        "isolated": isolated,
+        "essential_pairs": essential,
+        "delta_essential": float(delta_essential),
+        "reach": float(reach),
+    }
 
 
 def positive_real_union(

@@ -1,0 +1,188 @@
+{
+ "metadata": {
+  "schema": 1,
+  "script": "scripts/05_null_vectors.py",
+  "quick": false,
+  "created": "2026-10-03T00:19:19+00:00",
+  "sections": [
+   "decay",
+   "localization",
+   "singular_values",
+   "weight_test"
+  ],
+  "elapsed_sec": 118.364,
+  "config": "configs/05_null_vectors.yaml",
+  "config_sha256_16": "bf871495f026281a",
+  "versions": {
+   "python": "3.12.3",
+   "numpy": "2.4.4",
+   "scipy": "1.17.1"
+  },
+  "git_commit": "b6e0951",
+  "config_contents": {
+   "grid": {
+    "L": 200.0,
+    "N": 4096
+   },
+   "model": {
+    "mu": 1.0,
+    "gamma": 0.1,
+    "mu2": 0.0,
+    "couplings": [
+     [
+      1,
+      1.0
+     ]
+    ],
+    "template_width": 2.0
+   },
+   "run": {
+    "phat": {
+     "normalization": "minus2pi",
+     "seed": 0,
+     "iters": 80,
+     "shift": 1e-14
+    },
+    "newton": {
+     "tol": 1e-12,
+     "maxit": 40
+    },
+    "decay": {
+     "L": 200.0,
+     "N": 4096,
+     "c0": 0.88,
+     "approach": {
+      "start": 0.881,
+      "stop": 0.89,
+      "step": 0.001
+     },
+     "c": 0.89,
+     "stations": [
+      0,
+      10,
+      20,
+      40,
+      80,
+      120,
+      199
+     ],
+     "profile_csv": "data/05_null_profiles.csv"
+    },
+    "localization": {
+     "L": 200.0,
+     "N": 2048,
+     "c0": 0.88,
+     "c": 0.89,
+     "radius": 20.0
+    },
+    "singular_values": {
+     "L": 200.0,
+     "N": 2048,
+     "c0": 0.88,
+     "c": 0.89,
+     "count": 3
+    },
+    "weight_test": {
+     "window": 150.0,
+     "floor": 1e-12,
+     "envelope_width": 3.0,
+     "reflection_stations": [
+      50,
+      100,
+      150,
+      190
+     ]
+    }
+   }
+  },
+  "normalization": "minus2pi"
+ },
+ "quick": false,
+ "decay": {
+  "0": {
+   "p0": 0.6741719464757006,
+   "phat": 0.4783716189084239
+  },
+  "10": {
+   "p0": 0.12228671937608569,
+   "phat": 0.1483716766344837
+  },
+  "20": {
+   "p0": 0.00532824306635161,
+   "phat": 0.006654832110261608
+  },
+  "40": {
+   "p0": 0.011923285521158707,
+   "phat": 0.01188802494291868
+  },
+  "80": {
+   "p0": 0.00011865043973367089,
+   "phat": 0.00012388332998934873
+  },
+  "120": {
+   "p0": 2.654733474090863e-07,
+   "phat": 1.1862014321928618e-07
+  },
+  "199": {
+   "p0": 1.0627909953776942e-09,
+   "phat": 1.0861236056870614e-09
+  },
+  "c": 0.89,
+  "L": 200.0,
+  "N": 4096,
+  "res_phat_rel": 6.980149057512509e-14,
+  "res_M0_phi_prime": 2.4663252832212735e-09,
+  "profile_csv": "data/05_null_profiles.csv"
+ },
+ "localization": {
+  "p0": 0.9898142929683207,
+  "phat": 0.989794407349996,
+  "radius": 20.0,
+  "L": 200.0,
+  "N": 2048,
+  "c": 0.89
+ },
+ "sv": {
+  "s1": 2.6599526174385155e-09,
+  "s2": 0.09887184426689626,
+  "s3": 0.19093319475455273,
+  "L": 200.0,
+  "N": 2048,
+  "c": 0.89,
+  "gap_s2_over_s1": 37170528.38411385
+ },
+ "weight_test": {
+  "observed_slope": 0.09676158400978695,
+  "slope_if_weight_held": -0.11235955056179776,
+  "slope_sign_matches_weight": false,
+  "slope_fit_residual_std": 8.511010605796178,
+  "reflection": {
+   "50": {
+    "phi_prime_at_minus": 0.0049686313388940875,
+    "phat_at_plus": 0.00520134297001277,
+    "ratio": 1.046836163773519
+   },
+   "100": {
+    "phi_prime_at_minus": 3.6166904123123203e-05,
+    "phat_at_plus": 3.746538825712434e-05,
+    "ratio": 1.035902551392862
+   },
+   "150": {
+    "phi_prime_at_minus": 2.6242036187998076e-07,
+    "phat_at_plus": 2.6915524133330747e-07,
+    "ratio": 1.025664469803631
+   },
+   "190": {
+    "phi_prime_at_minus": 5.071733341671214e-09,
+    "phat_at_plus": 5.037370444093541e-09,
+    "ratio": 0.9932246245489024
+   }
+  },
+  "reflection_ratio_min": 0.9932246245489024,
+  "reflection_ratio_max": 1.046836163773519,
+  "window": 150.0,
+  "envelope_width_xi": 3.0,
+  "gamma_over_c": 0.11235955056179776,
+  "points_used": 965
+ }
+}

@@ -8,7 +8,7 @@ payload in a file of the shape::
       "<payload keys at the top level>": ...
     }
 
-``handoff/claims.yaml`` addresses results by a ``/``-separated **key path** into that
+``manuscript/claims.yaml`` addresses results by a ``/``-separated **key path** into that
 file -- ``critical/c_hat1``, ``rows/0.89500/kappa``, ``c_max`` -- so the payload sits at
 the top level next to ``metadata`` and nothing may be nested under a wrapper key.
 :func:`get_path` resolves exactly those paths.

@@ -4,7 +4,7 @@ Everything Claude Code needs to build the companion repository for the research 
 
 | file | what it is |
 |---|---|
-| `note.tex` | the manuscript. Compiles standalone (pdflatex, 18 pp). Figures are drawn as placeholder boxes until `figures/*.pdf` exist. |
+| `note.tex` | **moved to [`../manuscript/note.tex`](../manuscript/note.tex)** -- the manuscript now lives beside its claims manifest and its figures. |
 | `claims.yaml` | 125 machine-checkable claims: every number quoted in the note, with the JSON key path the experiment scripts must emit, and a tolerance. |
 | `SCIENCE_BRIEF.md` | self-contained statement of the model, the identities, the conventions and the full numerical recipe. Read this before writing any code. |
 | `reference/fk.py` | Fourier-spectral advance--delay solver for the traveling wave (verbatim from the investigation). |
@@ -23,3 +23,11 @@ output and `claims.yaml` disagree, `claims.yaml` (and `verify_*.json`) win.
 
 The values in `verify_core.json` / `verify_extra.json` were recomputed from scratch and agree
 with the manuscript to all quoted digits. Any new implementation must reproduce them.
+
+
+## What this directory is now
+
+Provenance only. `SCIENCE_BRIEF.md` is the standing statement of the model, the identities and
+the numerical recipe; `reference/` is the implementation that produced the numbers first, kept
+unmodified so that `tests/test_reference_smoke.py` and `tests/test_spectral.py` can pin the
+package to it. Neither is on the execution path of `make all`.

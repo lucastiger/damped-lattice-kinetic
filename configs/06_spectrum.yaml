@@ -1,0 +1,29 @@
+# The spectrum of the co-traveling pencil near the origin: the two structural eigenvalues
+# nu = 0 (translation) and nu = -gamma (its conformal dual), the pairing nu -> -gamma-nu of
+# Proposition 3.2, and the essential spectrum on Re nu = -gamma/2, i.e. |rho| = e^{-gamma/2c}.
+#
+# Two velocities: c = 0.89, stable, where no isolated real eigenvalue exists besides the two
+# structural ones; and c = 0.8995, past c_hat1, where exactly one unstable real multiplier
+# has left the circle.
+
+grid: {L: 200.0, N: 2048}
+model: {mu: 1.0, gamma: 0.1, mu2: 0.0, couplings: [[1, 1.0]], template_width: 2.0}
+
+run:
+  phat: {normalization: minus2pi, seed: 0, iters: 80, shift: 1.0e-14}
+  newton: {tol: 1.0e-12, maxit: 40}
+  c0: 0.88
+  approach_step: 1.0e-3
+  eigs: {shift: -0.045, k: 40, tol: 1.0e-11, imtol: 1.0e-7, zero_tol: 1.0e-6,
+         duality_tol: 1.0e-6, line_factor: 2.0, pairing_fraction: 0.6}
+  points:
+    c089: {c: 0.89, key: c089, csv: data/06_spectrum_c089.csv}
+    c08995: {c: 0.8995, key: c08995, csv: data/06_spectrum_c08995.csv}
+
+quick:
+  grid: {L: 60.0, N: 512}
+  run:
+    eigs: {k: 16}
+    points:
+      c089: {c: 0.89, key: c089, csv: data/06_spectrum_c089_quick.csv}
+      c08995: {c: 0.8995, key: c08995, csv: data/06_spectrum_c08995_quick.csv}

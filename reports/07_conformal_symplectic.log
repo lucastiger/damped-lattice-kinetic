@@ -1,0 +1,18 @@
+
+A^T J + J A = -gamma J, tested on a randomly resampled symmetric K(t)
+ n     dt  steps  max|M^T J M - e^{-gT} J| / max|J|
+--  -----  -----  ---------------------------------
+ 4  1e-03    900                           4.66e-15
+ 4  1e-04   9000                           1.77e-14
+ 8  1e-03    900                           4.55e-15
+ 8  1e-04   9000                           1.92e-14
+16  1e-03    900                           1.15e-14
+16  1e-04   9000                           2.73e-14
+
+the actual lattice monodromy (method of [VCKX20], independent of the xi-formulation)
+     c     drift  M^T J M resid  M z = z resid  dominant rho  pencil rho      diff
+------  --------  -------------  -------------  ------------  ----------  --------
+0.8900  3.65e-06       5.54e-14       6.52e-06    1.00000066  1.00000001  6.56e-07
+0.8995  4.38e-06       4.28e-14       8.14e-06    1.02000109  1.01974935  2.52e-04
+
+wrote data/07_conformal.json  (187.2 s, quick=False, sections=['random_K', 'lattice'])

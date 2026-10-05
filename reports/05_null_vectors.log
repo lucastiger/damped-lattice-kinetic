@@ -1,0 +1,36 @@
+
+decay envelope at c = 0.89 (each vector max-normalized)
+|xi|       phi'       phat
+----  ---------  ---------
+   0  6.742e-01  4.784e-01
+  10  1.223e-01  1.484e-01
+  20  5.328e-03  6.655e-03
+  40  1.192e-02  1.189e-02
+  80  1.187e-04  1.239e-04
+ 120  2.655e-07  1.186e-07
+ 199  1.063e-09  1.086e-09
+
+L2 mass inside |xi| < 20.0 (L=200.0, N=2048)
+    phi'      phat
+--------  --------
+0.989814  0.989794
+
+smallest singular values of M0 (L=200.0, N=2048, c=0.89)
+        s1          s2          s3     s2/s1
+----------  ----------  ----------  --------
+2.6600e-09  9.8872e-02  1.9093e-01  3.72e+07
+
+the weighted-space hypothesis: slope of log(env phat / env phi') against xi
+observed slope  slope if the weight held  same sign?  fit residual
+--------------  ------------------------  ----------  ------------
+      +0.09676                  -0.11236          no          8.51
+
+what is there instead: env|phat|(+xi) against env|phi'|(-xi)
+|xi|  env |phi'|(-xi)  env |phat|(+xi)    ratio
+----  ---------------  ---------------  -------
+  50       4.9686e-03       5.2013e-03  1.04684
+ 100       3.6167e-05       3.7465e-05  1.03590
+ 150       2.6242e-07       2.6916e-07  1.02566
+ 190       5.0717e-09       5.0374e-09  0.99322
+
+wrote data/05_nullvec.json  (118.4 s, quick=False, sections=['decay', 'localization', 'singular_values', 'weight_test'])

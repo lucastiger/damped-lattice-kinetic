@@ -14,3 +14,13 @@ dist/
 # CSV) precisely so that it cannot be mistaken for, or overwrite, the record.
 data/*_quick.json
 data/*_quick.csv
+
+# PNG previews are for inspection only; the PDFs are the artifacts
+figures/preview/
+# LaTeX build products; manuscript/figures is a copy made by `make manuscript-figures`
+manuscript/*.aux
+manuscript/*.log
+manuscript/*.out
+manuscript/*.toc
+manuscript/figures/
+reports/ci_report.md

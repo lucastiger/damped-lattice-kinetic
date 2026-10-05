@@ -1,0 +1,14 @@
+cff-version: 1.2.0
+title: "damped-lattice-kinetic: a Jordan-chain identity for the kinetic relation of damped, driven lattices"
+message: "If you use this software or its results, please cite the accompanying research note."
+type: software
+authors:
+  - name: "See manuscript/note.tex"
+repository-code: "https://github.com/lucastiger/damped-lattice-kinetic"
+license: MIT
+abstract: >-
+  Numerical companion to a research note on traveling kinks in damped, driven lattices:
+  the kinetic relation sigma(c) of the damped dc-driven Frenkel-Kontorova lattice, the
+  Jordan-chain identity kappa(c) = -mu sigma'(c) <phat,1> relating it to the spectrum of
+  the co-traveling linearization, the arclength form of that identity and the dichotomy it
+  implies between extrema of sigma and turning points of the branch in c.

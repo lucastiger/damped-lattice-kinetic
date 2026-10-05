@@ -1,0 +1,40 @@
+# Proposition 7.1: kappa = -f'(c) <phat,1> for a damped lattice with ADDITIVE drive f, any
+# smooth 2 pi-periodic onsite potential V'(u) = mu sin u + mu2 sin 2u, and any symmetric
+# finite-range coupling sum_j C_j Delta_j.  The identity's proof uses only translation
+# invariance, the symmetry of the coupling and uniform damping, so changing the substrate and
+# the coupling range is the sharpest cheap test of its scope.
+#
+# The initialization here is deliberately the single-stage one of the reference `gen.py`
+# (psi = 0, f = 0.5 at c = 0.55, fixed template width), not the two-stage `init_branch`:
+# these rows are the reference values of Table 7.
+
+grid: {L: 200.0, N: 2048}
+model: {mu: 1.0, gamma: 0.1, mu2: 0.0, couplings: [[1, 1.0]], template_width: 2.0}
+
+run:
+  phat: {normalization: unit, seed: 0, iters: 80, shift: 1.0e-14}
+  newton: {tol: 1.0e-11, maxit: 40}
+  approach: [0.55, 0.65, 0.75, 0.82]
+  c: 0.82
+  drive0: 0.5
+  cases:
+    fk:      {model: {mu: 1.0, gamma: 0.1, mu2: 0.0,  couplings: [[1, 1.0]]}}
+    mu2m05:  {model: {mu: 1.0, gamma: 0.1, mu2: -0.5, couplings: [[1, 1.0]]}}
+    nnn:     {model: {mu: 1.0, gamma: 0.1, mu2: 0.0,  couplings: [[1, 1.0], [2, 0.25]]}}
+    mu2nnn:  {model: {mu: 1.0, gamma: 0.1, mu2: 0.3,  couplings: [[1, 1.0], [2, 0.20]]}}
+    soft:    {model: {mu: 0.6, gamma: 0.2, mu2: 0.0,  couplings: [[1, 1.0]]}}
+  # Expected to fail: recorded as a status, not rescued.  The manuscript reports it as such.
+  attempted:
+    mu2p035: {model: {mu: 1.0, gamma: 0.1, mu2: 0.35, couplings: [[1, 1.0]]}}
+  # The mu2 = -0.5 row has the largest error of the table at N=2048.  Repeating it at N=4096
+  # is the evidence that this is resolution and not a failure of the identity.
+  refinement: {case: mu2m05, N: 4096, key: mu2m05_N4096}
+
+quick:
+  grid: {L: 60.0, N: 512}
+  run:
+    cases:
+      fk:     {model: {mu: 1.0, gamma: 0.1, mu2: 0.0,  couplings: [[1, 1.0]]}}
+      nnn:    {model: {mu: 1.0, gamma: 0.1, mu2: 0.0,  couplings: [[1, 1.0], [2, 0.25]]}}
+    attempted: {}
+    refinement: {case: fk, N: 1024, key: fk_N1024}

@@ -1,0 +1,39 @@
+# Proposition 3.1, M^T J M = e^{-gamma/c} J, twice over.
+#
+# `random_K`  the structural statement: A^T J + J A = -gamma J uses only the Newtonian form,
+#             the symmetry of the force Jacobian and uniform damping, so K(t) is resampled at
+#             random every step.  The sweep over (n, dt) shows the residual is arithmetic, not
+#             a discretization artefact.
+# `lattice`   the same identity for the ACTUAL Frenkel-Kontorova monodromy, by going back to
+#             the lattice in (n, t) -- the formulation of [VCKX20] rather than ours.  Not used
+#             by any claim in the manuscript; it is here to fail loudly if the xi-formulation
+#             has drifted from the lattice it describes.
+
+grid: {L: 200.0, N: 2048}
+model: {mu: 1.0, gamma: 0.1, mu2: 0.0, couplings: [[1, 1.0]], template_width: 2.0}
+
+run:
+  phat: {normalization: minus2pi, seed: 0, iters: 80, shift: 1.0e-14}
+  newton: {tol: 1.0e-12, maxit: 40}
+  random_K:
+    reference: {n: 8, gamma: 0.37, T: 0.9, dt: 1.0e-4, seed: 1}
+    sweep:
+      n: [4, 8, 16]
+      dt: [1.0e-3, 1.0e-4]
+  lattice:
+    c0: 0.88
+    approach_step: 1.0e-3
+    c_values: [0.89, 0.8995]
+    steps: 2000            # RK4 steps per period T = 1/c
+    steps_refine: 4000     # repeat at twice the resolution to show the drift is not the error
+    symplectic_pairs: 8
+    symplectic_seed: 0
+    arnoldi: {k: 6, tol: 1.0e-8, maxiter: 3000, power_iters: 250}
+    pencil: {shift: 0.006, k: 24, tol: 1.0e-10}
+
+quick:
+  grid: {L: 60.0, N: 512}
+  run:
+    random_K: {sweep: {n: [4], dt: [1.0e-3]}}
+    lattice: {c_values: [0.89], steps: 400, steps_refine: 800, symplectic_pairs: 2,
+              arnoldi: {k: 4, tol: 1.0e-6, maxiter: 1000, power_iters: 60}}

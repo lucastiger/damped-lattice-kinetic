@@ -241,3 +241,19 @@ claims:
    where: "Obs. 9.7", verified: rerun, note: "rerun value 2.4e-12"}
 - {id: GN-refine-fp, file: data/08_general.json, key: refinement/mu2m05_N4096_fprime, kind: value, value: 2.6762666,
    abs_tol: 3.0e-6, where: "Obs. 9.7", verified: rerun}
+
+# ------------------------------------------------- Observation 9.5, revised -
+# Added during the final validation pass: the adjoint's tails mirror phi''s, and the
+# exponential weight's required slope has the opposite sign to the one observed.
+- {id: NV-refl-min, file: data/05_nullvec.json, key: weight_test/reflection_ratio_min,
+   kind: value, value: 0.993, abs_tol: 0.03, where: "Obs. 9.5",
+   note: "env|phat|(+xi) / env|phi'|(-xi), minimum over |xi| in {50,100,150,190}"}
+- {id: NV-refl-max, file: data/05_nullvec.json, key: weight_test/reflection_ratio_max,
+   kind: value, value: 1.047, abs_tol: 0.03, where: "Obs. 9.5",
+   note: "maximum over the same stations; the note quotes the range as 1-5%"}
+- {id: NV-slope, file: data/05_nullvec.json, key: weight_test/observed_slope,
+   kind: value, value: 0.097, abs_tol: 0.002, where: "Obs. 9.5",
+   note: "least-squares slope of log(env phat / env phi') over |xi| < 150"}
+- {id: NV-slope-sign, file: data/05_nullvec.json, key: weight_test/slope_sign_matches_weight,
+   kind: bool, value: false, where: "Obs. 9.5",
+   note: "the weight e^{-gamma xi/c} would require slope -gamma/c = -0.112"}

@@ -1,0 +1,11 @@
+# Results and sources are text with Unix line endings on every platform, so that a result
+# file regenerated on Windows does not show as entirely changed.
+*.py    text eol=lf
+*.yaml  text eol=lf
+*.json  text eol=lf
+*.csv   text eol=lf
+*.md    text eol=lf
+*.tex   text eol=lf
+Makefile text eol=lf
+*.pdf   binary
+*.png   binary

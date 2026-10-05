@@ -180,7 +180,7 @@ def run_curve(cfg, run) -> Dict[str, Any]:
     csv_path = Path(opts["csv"])
     csv_path.parent.mkdir(parents=True, exist_ok=True)
     with csv_path.open("w", encoding="utf-8", newline="") as handle:
-        writer = csv.DictWriter(handle, fieldnames=list(CURVE_COLUMNS))
+        writer = csv.DictWriter(handle, fieldnames=list(CURVE_COLUMNS), lineterminator="\n")
         writer.writeheader()
         for row in rows:
             writer.writerow({k: row[k] for k in CURVE_COLUMNS})

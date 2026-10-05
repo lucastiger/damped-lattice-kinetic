@@ -1,0 +1,13 @@
+
+pencil spectrum near the origin at c = 0.89
+|nu| nearest 0  nu nearest -gamma  pairing err  isolated real  circle |rho|
+--------------  -----------------  -----------  -------------  ------------
+      7.25e-09       -0.100000007     7.25e-15              0      0.945369
+
+pencil spectrum near the origin at c = 0.8995
+|nu| nearest 0  nu nearest -gamma  pairing err  isolated real  circle |rho|
+--------------  -----------------  -----------  -------------  ------------
+      6.17e-08       -0.099999938     6.74e-15              1      0.945930
+    isolated real eigenvalues: +0.017591 (rho=1.01975)
+
+wrote data/06_spectrum.json  (21.3 s, quick=False)

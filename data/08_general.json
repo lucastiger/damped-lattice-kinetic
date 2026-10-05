@@ -1,0 +1,335 @@
+{
+ "metadata": {
+  "schema": 1,
+  "script": "scripts/08_general_lattices.py",
+  "quick": false,
+  "created": "2026-10-02T08:41:34+00:00",
+  "sections": [
+   "rows",
+   "attempted",
+   "refinement"
+  ],
+  "elapsed_sec": 81.565,
+  "config": "configs/08_general_lattices.yaml",
+  "config_sha256_16": "136d6da4f1143a4e",
+  "versions": {
+   "python": "3.12.3",
+   "numpy": "2.4.4",
+   "scipy": "1.17.1"
+  },
+  "git_commit": "b6e0951",
+  "config_contents": {
+   "grid": {
+    "L": 200.0,
+    "N": 2048
+   },
+   "model": {
+    "mu": 1.0,
+    "gamma": 0.1,
+    "mu2": 0.0,
+    "couplings": [
+     [
+      1,
+      1.0
+     ]
+    ],
+    "template_width": 2.0
+   },
+   "run": {
+    "phat": {
+     "normalization": "unit",
+     "seed": 0,
+     "iters": 80,
+     "shift": 1e-14
+    },
+    "newton": {
+     "tol": 1e-11,
+     "maxit": 40
+    },
+    "approach": [
+     0.55,
+     0.65,
+     0.75,
+     0.82
+    ],
+    "c": 0.82,
+    "drive0": 0.5,
+    "cases": {
+     "fk": {
+      "model": {
+       "mu": 1.0,
+       "gamma": 0.1,
+       "mu2": 0.0,
+       "couplings": [
+        [
+         1,
+         1.0
+        ]
+       ]
+      }
+     },
+     "mu2m05": {
+      "model": {
+       "mu": 1.0,
+       "gamma": 0.1,
+       "mu2": -0.5,
+       "couplings": [
+        [
+         1,
+         1.0
+        ]
+       ]
+      }
+     },
+     "nnn": {
+      "model": {
+       "mu": 1.0,
+       "gamma": 0.1,
+       "mu2": 0.0,
+       "couplings": [
+        [
+         1,
+         1.0
+        ],
+        [
+         2,
+         0.25
+        ]
+       ]
+      }
+     },
+     "mu2nnn": {
+      "model": {
+       "mu": 1.0,
+       "gamma": 0.1,
+       "mu2": 0.3,
+       "couplings": [
+        [
+         1,
+         1.0
+        ],
+        [
+         2,
+         0.2
+        ]
+       ]
+      }
+     },
+     "soft": {
+      "model": {
+       "mu": 0.6,
+       "gamma": 0.2,
+       "mu2": 0.0,
+       "couplings": [
+        [
+         1,
+         1.0
+        ]
+       ]
+      }
+     }
+    },
+    "attempted": {
+     "mu2p035": {
+      "model": {
+       "mu": 1.0,
+       "gamma": 0.1,
+       "mu2": 0.35,
+       "couplings": [
+        [
+         1,
+         1.0
+        ]
+       ]
+      }
+     }
+    },
+    "refinement": {
+     "case": "mu2m05",
+     "N": 4096,
+     "key": "mu2m05_N4096"
+    }
+   }
+  },
+  "normalization": "unit",
+  "cases": [
+   "fk",
+   "mu2m05",
+   "nnn",
+   "mu2nnn",
+   "soft"
+  ]
+ },
+ "quick": false,
+ "rows": {
+  "fk": {
+   "c": 0.82,
+   "L": 200.0,
+   "N": 2048,
+   "mu": 1.0,
+   "mu2": 0.0,
+   "gamma": 0.1,
+   "couplings": [
+    [
+     1,
+     1.0
+    ]
+   ],
+   "f": 0.4819599977075246,
+   "fprime": 2.1741559665408436,
+   "kappa": 1.146659360560575,
+   "phat_one": -0.5274043713574208,
+   "pred": 1.1466593607664592,
+   "relerr": 1.7955131717667988e-10,
+   "abserr": 2.0588419857858753e-10,
+   "residual": 1.0291767438275201e-13,
+   "power_balance_relerr": 2.663006860743746e-09,
+   "phat_dot_Vpp": -1.6582731823984453e-10,
+   "normalization": "unit"
+  },
+  "mu2m05": {
+   "c": 0.82,
+   "L": 200.0,
+   "N": 2048,
+   "mu": 1.0,
+   "mu2": -0.5,
+   "gamma": 0.1,
+   "couplings": [
+    [
+     1,
+     1.0
+    ]
+   ],
+   "f": 0.5403255333365188,
+   "fprime": 2.67626816980831,
+   "kappa": 1.069732749148688,
+   "phat_one": -0.3997121675902625,
+   "pred": 1.0697369512069044,
+   "relerr": 3.928122901179558e-06,
+   "abserr": 4.202058216273841e-06,
+   "residual": 2.510214258677479e-13,
+   "power_balance_relerr": 1.4006959160230711e-05,
+   "phat_dot_Vpp": -3.2936764733074077e-06,
+   "normalization": "unit"
+  },
+  "nnn": {
+   "c": 0.82,
+   "L": 200.0,
+   "N": 2048,
+   "mu": 1.0,
+   "mu2": 0.0,
+   "gamma": 0.1,
+   "couplings": [
+    [
+     1,
+     1.0
+    ],
+    [
+     2,
+     0.25
+    ]
+   ],
+   "f": 0.16633256174120617,
+   "fprime": 0.6017456528971381,
+   "kappa": 0.4806266005106555,
+   "phat_one": -0.7987205195362175,
+   "pred": 0.4806266005106625,
+   "relerr": 1.4668177331174046e-14,
+   "abserr": 7.049916206369744e-15,
+   "residual": 8.115730310009894e-14,
+   "power_balance_relerr": 4.4720613854080884e-14,
+   "phat_dot_Vpp": -7.480994990149981e-16,
+   "normalization": "unit"
+  },
+  "mu2nnn": {
+   "c": 0.82,
+   "L": 200.0,
+   "N": 2048,
+   "mu": 1.0,
+   "mu2": 0.3,
+   "gamma": 0.1,
+   "couplings": [
+    [
+     1,
+     1.0
+    ],
+    [
+     2,
+     0.2
+    ]
+   ],
+   "f": 0.19151244880092794,
+   "fprime": 1.0090120307412125,
+   "kappa": 0.7354070282006454,
+   "phat_one": -0.7288387113132178,
+   "pred": 0.7354070281849582,
+   "relerr": 2.133135623148155e-11,
+   "abserr": 1.5687229293348537e-11,
+   "residual": 1.7541523789077473e-13,
+   "power_balance_relerr": 7.297502746877222e-11,
+   "phat_dot_Vpp": 3.442528380415144e-11,
+   "normalization": "unit"
+  },
+  "soft": {
+   "c": 0.82,
+   "L": 200.0,
+   "N": 2048,
+   "mu": 0.6,
+   "mu2": 0.0,
+   "gamma": 0.2,
+   "couplings": [
+    [
+     1,
+     1.0
+    ]
+   ],
+   "f": 0.37990799507555145,
+   "fprime": 1.487687634110656,
+   "kappa": 1.1779353111950372,
+   "phat_one": -0.7917894080630625,
+   "pred": 1.1779353111952142,
+   "relerr": 1.502370702731413e-13,
+   "abserr": 1.7696955012524995e-13,
+   "residual": 3.675670878777737e-13,
+   "power_balance_relerr": 2.2180614428051614e-13,
+   "phat_dot_Vpp": -1.0958302407854115e-13,
+   "normalization": "unit"
+  }
+ },
+ "attempted": {
+  "mu2p035": {
+   "status": "continuation from psi=0 did not converge",
+   "detail": "Newton failed to converge at c=0.55: after 40 iterations the residual max(|R|_inf, |psi(0)|) = 1.255e+00 still exceeds tol_fail=1.000e-09."
+  }
+ },
+ "refinement": {
+  "mu2m05_N4096_relerr": 2.389947723216478e-12,
+  "mu2m05_N4096_fprime": 2.6762666487419984,
+  "mu2m05_N4096_detail": {
+   "c": 0.82,
+   "L": 200.0,
+   "N": 4096,
+   "mu": 1.0,
+   "mu2": -0.5,
+   "gamma": 0.1,
+   "couplings": [
+    [
+     1,
+     1.0
+    ]
+   ],
+   "f": 0.5403273566625962,
+   "fprime": 2.6762666487419984,
+   "kappa": 0.7564082399963512,
+   "phat_one": -0.28263560372435215,
+   "pred": 0.7564082399945434,
+   "relerr": 2.389947723216478e-12,
+   "abserr": 1.8077761509971424e-12,
+   "residual": 1.698308160769102e-12,
+   "power_balance_relerr": 1.0310599803755395e-12,
+   "phat_dot_Vpp": 1.4176133140628155e-12,
+   "normalization": "unit"
+  },
+  "mu2m05_N4096_improvement_factor": 1643602.0181616978
+ }
+}
